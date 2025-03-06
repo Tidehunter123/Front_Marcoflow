@@ -110,15 +110,17 @@ export function DigitalWallet({
               }}
               mt={1}
             >
-              {trend === 'up' ? (
-                <TrendUpIcon fontSize="var(--icon-fontSize-md)" />
-              ) : (
-                <TrendDownIcon fontSize="var(--icon-fontSize-md)" />
-              )}
               {isDiff ? (
-                <Typography color="inherit" variant="body2">
-                  {diff} kcal
-                </Typography>
+                <>
+                  {trend === 'up' ? (
+                    <TrendUpIcon fontSize="var(--icon-fontSize-md)" />
+                  ) : (
+                    <TrendDownIcon fontSize="var(--icon-fontSize-md)" />
+                  )}
+                  <Typography color="inherit" variant="body2">
+                    {diff} kcal
+                  </Typography>
+                </>
               ) : null}
             </Stack>
           </div>

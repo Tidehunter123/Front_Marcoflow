@@ -13,9 +13,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import type { Icon } from '@phosphor-icons/react/dist/lib/types';
 import { ChartPie as ChartPieIcon } from '@phosphor-icons/react/dist/ssr/ChartPie';
-import { CurrencyDollar as CurrencyDollarIcon } from '@phosphor-icons/react/dist/ssr/CurrencyDollar';
-import { Receipt as ReceiptIcon } from '@phosphor-icons/react/dist/ssr/Receipt';
-import { ReceiptX as ReceiptXIcon } from '@phosphor-icons/react/dist/ssr/ReceiptX';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { NoSsr } from '@/components/core/no-ssr';
@@ -69,7 +66,7 @@ export function Stats({ data, weight }: StatsProps): React.JSX.Element {
               handleWeekChange={handleWeekChange}
             />
             <Summary
-              icon={CurrencyDollarIcon}
+              icon={ChartPieIcon}
               title="Weekly Loss 1%"
               data={data}
               dataKey="v2"
@@ -77,7 +74,7 @@ export function Stats({ data, weight }: StatsProps): React.JSX.Element {
               handleWeekChange={handleWeekChange}
             />
             <Summary
-              icon={ReceiptIcon}
+              icon={ChartPieIcon}
               title="Weekly Gain 0.5%"
               data={data}
               dataKey="v3"
@@ -85,7 +82,7 @@ export function Stats({ data, weight }: StatsProps): React.JSX.Element {
               handleWeekChange={handleWeekChange}
             />
             <Summary
-              icon={ReceiptXIcon}
+              icon={ChartPieIcon}
               title="Weekly Gain 1%"
               data={data}
               dataKey="v4"

@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { MenuItem, Select } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -20,40 +21,87 @@ import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YA
 import { NoSsr } from '@/components/core/no-ssr';
 
 const lines = [
-  { name: 'New customers', dataKey: 'v1', color: 'var(--mui-palette-primary-main)' },
-  { name: 'Up & cross selling', dataKey: 'v2', color: 'var(--mui-palette-success-main)' },
+  { name: 'Weight Loss 0.5%', dataKey: 'v1', color: 'rgba(213, 19, 49, 1)' },
+  { name: 'Weight Loss 1%', dataKey: 'v2', color: 'purple' },
+  { name: 'Weight Gain 0.5%', dataKey: 'v3', color: 'orange' },
+  { name: 'Weight Gain 0.75%', dataKey: 'v4', color: 'green' },
 ] satisfies { name: string; dataKey: string; color: string }[];
 
 export interface StatsProps {
-  data: { name: string; v1: number; v2: number }[];
+  data: { name: string; v1: number; v2: number; v3: number; v4: number }[];
+  weight: number | null;
 }
 
-export function Stats({ data }: StatsProps): React.JSX.Element {
+export function Stats({ data, weight }: StatsProps): React.JSX.Element {
+  const [week, setWeek] = React.useState<number>(1); // Default week is 1
+
   const chartHeight = 320;
+
+  console.log(data, 'data');
+
+  const handleWeekChange = (event: SelectChangeEvent<number>) => {
+    setWeek(Number(event.target.value));
+  };
 
   return (
     <Card>
-      <CardHeader title="Stats at a glance" />
+      <CardHeader
+        title={
+          <span>
+            Current Weight: <span style={{ color: '#D51331' }}>{weight !== null ? `${weight} kg` : ''}</span>
+          </span>
+        }
+      />
       <CardContent>
-        <Stack divider={<Divider />} spacing={3}>
+        <Stack divider={<Divider />} spacing={1}>
           <Stack
             direction={{ xs: 'column', md: 'row' }}
             divider={<Divider flexItem orientation="vertical" sx={{ borderBottomWidth: { xs: '1px', md: 0 } }} />}
             spacing={3}
             sx={{ justifyContent: 'space-between' }}
           >
-            <Summary icon={ChartPieIcon} title="Payout balance" value={16400} />
-            <Summary icon={CurrencyDollarIcon} title="Today's revenue" value={2600} />
-            <Summary icon={ReceiptIcon} title="Expenses" value={5800} />
-            <Summary icon={ReceiptXIcon} title="Refunds" value={1250} />
+            <Summary
+              icon={ChartPieIcon}
+              title="Weekly Loss 0.5%"
+              data={data}
+              dataKey="v1"
+              week={week}
+              handleWeekChange={handleWeekChange}
+            />
+            <Summary
+              icon={CurrencyDollarIcon}
+              title="Weekly Loss 1%"
+              data={data}
+              dataKey="v2"
+              week={week}
+              handleWeekChange={handleWeekChange}
+            />
+            <Summary
+              icon={ReceiptIcon}
+              title="Weekly Gain 0.5%"
+              data={data}
+              dataKey="v3"
+              week={week}
+              handleWeekChange={handleWeekChange}
+            />
+            <Summary
+              icon={ReceiptXIcon}
+              title="Weekly Gain 1%"
+              data={data}
+              dataKey="v4"
+              week={week}
+              handleWeekChange={handleWeekChange}
+            />
           </Stack>
           <NoSsr fallback={<Box sx={{ height: `${chartHeight}px` }} />}>
             <ResponsiveContainer height={chartHeight} width="100%">
               <LineChart data={data} margin={{ top: 0, right: 20, bottom: 0, left: 20 }}>
                 <CartesianGrid strokeDasharray="2 4" vertical={false} />
                 <XAxis axisLine={false} dataKey="name" interval={4} tickLine={false} type="category" />
-                <YAxis axisLine={false} domain={[0, 120]} hide type="number" yAxisId={0} />
-                <YAxis axisLine={false} domain={[2000, 12000]} hide type="number" yAxisId={1} />
+                <YAxis axisLine={false} domain={[30, 200]} hide type="number" yAxisId={0} />
+                <YAxis axisLine={false} domain={[30, 200]} hide type="number" yAxisId={1} />
+                <YAxis axisLine={false} domain={[30, 200]} hide type="number" yAxisId={2} />
+                <YAxis axisLine={false} domain={[30, 200]} hide type="number" yAxisId={3} />
                 {lines.map(
                   (line, index): React.JSX.Element => (
                     <Line
@@ -63,7 +111,7 @@ export function Stats({ data }: StatsProps): React.JSX.Element {
                       key={line.name}
                       name={line.name}
                       stroke={line.color}
-                      strokeDasharray={index === 0 ? '0' : '4 4'}
+                      strokeDasharray={'10 10'}
                       strokeWidth={2}
                       type="bump"
                       yAxisId={index}
@@ -84,10 +132,13 @@ export function Stats({ data }: StatsProps): React.JSX.Element {
 interface SummaryProps {
   icon: Icon;
   title: string;
-  value: number;
+  data: { name: string; v1: number; v2: number; v3: number; v4: number }[];
+  dataKey: 'v1' | 'v2' | 'v3' | 'v4';
+  week: number;
+  handleWeekChange: (event: SelectChangeEvent<number>) => void;
 }
 
-function Summary({ icon: Icon, title, value }: SummaryProps): React.JSX.Element {
+function Summary({ icon: Icon, title, data, dataKey, week, handleWeekChange }: SummaryProps): React.JSX.Element {
   return (
     <Stack direction="row" spacing={3} sx={{ alignItems: 'center' }}>
       <Avatar
@@ -102,14 +153,22 @@ function Summary({ icon: Icon, title, value }: SummaryProps): React.JSX.Element 
         <Icon fontSize="var(--Icon-fontSize)" />
       </Avatar>
       <div>
-        <Typography color="text.secondary" variant="overline">
+        <Typography color="text.secondary" variant="overline" fontSize={15}>
           {title}
         </Typography>
-        <Typography variant="h5">
-          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(
-            value
-          )}
-        </Typography>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography variant="body2">
+            {data[week - 1]?.[dataKey] ? `${data[week - 1][dataKey]} kg` : '00.00 kg'}
+          </Typography>
+          <Select value={week} onChange={handleWeekChange} size="small" sx={{ marginLeft: '10px' }}>
+            {Array.from({ length: 41 }, (_, i) => (
+              <MenuItem key={i} value={i}>
+                {i}
+              </MenuItem>
+            ))}
+          </Select>
+          <Typography variant="body2">Week</Typography>
+        </Stack>
       </div>
     </Stack>
   );
@@ -138,7 +197,7 @@ function Legend(): React.JSX.Element {
       {lines.map((line) => (
         <Stack direction="row" key={line.name} spacing={1} sx={{ alignItems: 'center' }}>
           <Box sx={{ bgcolor: line.color, borderRadius: '2px', height: '4px', width: '16px' }} />
-          <Typography color="text.secondary" variant="caption">
+          <Typography color="text.secondary" variant="body2">
             {line.name}
           </Typography>
         </Stack>
@@ -168,13 +227,7 @@ function TooltipContent({ active, payload }: TooltipContentProps): React.JSX.Ele
                 <Typography sx={{ whiteSpace: 'nowrap' }}>{entry.name}</Typography>
               </Stack>
               <Typography color="text.secondary" variant="body2">
-                {index === 0
-                  ? entry.value
-                  : new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                      maximumFractionDigits: 0,
-                    }).format(entry.value)}
+                {entry.value.toFixed(0)} kg
               </Typography>
             </Stack>
           )

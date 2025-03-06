@@ -77,7 +77,10 @@ export function SignUpForm(): React.JSX.Element {
         return;
       }
 
-      window.location.href = data.url;
+      const parsedUrl = new URL(data.url);
+      const redirectUrl = `https://app.macroflow.io${parsedUrl.search}`;
+
+      window.location.href = redirectUrl;
     },
     [supabaseClient]
   );

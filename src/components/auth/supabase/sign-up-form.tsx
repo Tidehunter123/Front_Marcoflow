@@ -63,7 +63,7 @@ export function SignUpForm(): React.JSX.Element {
     async (providerId: OAuthProvider['id']): Promise<void> => {
       setIsPending(true);
 
-      const redirectToUrl = new URL(paths.auth.supabase.callback.pkce, 'https://app.macroflow.io');
+      const redirectToUrl = new URL(paths.auth.supabase.callback.pkce, window.location.origin);
       redirectToUrl.searchParams.set('next', paths.dashboard.overview);
 
       const { data, error } = await supabaseClient.auth.signInWithOAuth({
@@ -77,7 +77,7 @@ export function SignUpForm(): React.JSX.Element {
         return;
       }
 
-      window.location.href = 'https://app.macroflow.io/dashboard';
+      window.location.href = data.url;
     },
     [supabaseClient]
   );

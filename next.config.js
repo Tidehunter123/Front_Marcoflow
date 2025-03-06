@@ -12,7 +12,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/dashboard/requests',
+        destination: '/dashboard',
         permanent: false, // Set to `true` for a 301 redirect, `false` for 307
       },
     ];

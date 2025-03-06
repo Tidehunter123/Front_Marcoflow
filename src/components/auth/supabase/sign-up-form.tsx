@@ -77,7 +77,7 @@ export function SignUpForm(): React.JSX.Element {
         return;
       }
 
-      window.location.href = data.url;
+      window.location.href = 'https://app.macroflow.io/dashboard';
     },
     [supabaseClient]
   );

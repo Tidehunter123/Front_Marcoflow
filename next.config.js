@@ -8,15 +8,15 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/',
-        permanent: false, // Set to `true` for a 301 redirect, `false` for 307
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/home',
+  //       permanent: false, // Set to `true` for a 301 redirect, `false` for 307
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;

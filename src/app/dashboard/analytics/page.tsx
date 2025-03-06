@@ -44,7 +44,7 @@ export default function Page(): React.JSX.Element {
   const [open, setOpen] = React.useState<boolean>(false); // Modal is closed by default
   const [currentWeight, setCurrentWeight] = React.useState<number | null>(null);
   const [lastUpdated, setLastUpdated] = React.useState<string | null>(null); // Replace with dynamic data
-
+  const [isCalculating, setIsCalculating] = React.useState(false);
   if (!userContext) {
     throw new Error('UserContext is not available. Make sure the component is wrapped in a UserProvider.');
   }
@@ -56,6 +56,8 @@ export default function Page(): React.JSX.Element {
     console.log('Recalculating with current weight:', currentWeight);
     // Example: Call an API or perform calculations here
     setOpen(false); // Close the modal after recalculation
+
+    setIsCalculating(true);
 
     const userProfileData = {
       id: user?.id,
@@ -103,7 +105,7 @@ export default function Page(): React.JSX.Element {
       console.error('Error creating user profile:', error);
       // Handle error in the UI
     } finally {
-      // setIsCalculating(false); // Reset loading state
+      setIsCalculating(false); // Reset loading state
     }
   };
 
@@ -366,7 +368,7 @@ export default function Page(): React.JSX.Element {
                           <>
                             <TrendDownIcon color="var(--mui-palette-error-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
-                              <Typography color="success.main" component="span" variant="subtitle2">
+                              <Typography color="error.main" component="span" variant="subtitle2">
                                 {Math.abs(Protein - oldProtein).toFixed(2)} g
                               </Typography>{' '}
                               decrease
@@ -409,7 +411,7 @@ export default function Page(): React.JSX.Element {
                           <>
                             <TrendDownIcon color="var(--mui-palette-error-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
-                              <Typography color="success.main" component="span" variant="subtitle2">
+                              <Typography color="error.main" component="span" variant="subtitle2">
                                 {Math.abs(Fats - oldFats).toFixed(2)} g
                               </Typography>{' '}
                               decrease
@@ -454,7 +456,7 @@ export default function Page(): React.JSX.Element {
                           <>
                             <TrendDownIcon color="var(--mui-palette-error-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
-                              <Typography color="success.main" component="span" variant="subtitle2">
+                              <Typography color="error.main" component="span" variant="subtitle2">
                                 {Math.abs(Carbos - oldCarbos).toFixed(2)} g
                               </Typography>{' '}
                               decrease
@@ -490,7 +492,7 @@ export default function Page(): React.JSX.Element {
                           <>
                             <TrendDownIcon color="var(--mui-palette-error-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
-                              <Typography color="success.main" component="span" variant="subtitle2">
+                              <Typography color="error.main" component="span" variant="subtitle2">
                                 {Math.abs(Fibre - oldFibre).toFixed(2)} g
                               </Typography>{' '}
                               decrease

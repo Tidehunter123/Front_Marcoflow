@@ -26,7 +26,7 @@ export default function Page(): React.JSX.Element {
         width: 'var(--Content-width)',
       }}
     >
-      <Stack spacing={4}>
+      {/* <Stack spacing={4}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ alignItems: 'flex-start' }}>
           <Box sx={{ flex: '1 1 auto' }}>
             <Typography variant="h4">E-commerce</Typography>
@@ -171,7 +171,7 @@ export default function Page(): React.JSX.Element {
             />
           </Grid>
         </Grid>
-      </Stack>
+      </Stack> */}
     </Box>
   );
 }

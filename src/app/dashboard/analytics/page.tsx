@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { keyframes } from '@emotion/react';
-import { Button, Modal, TextField } from '@mui/material';
+import { Button, CircularProgress, Modal, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid2';
@@ -278,6 +278,7 @@ export default function Page(): React.JSX.Element {
                 diff={Bmr !== null && oldBmr !== null ? parseFloat(Math.abs(Bmr - oldBmr).toFixed(0)) : null}
                 isDiff={oldBmr !== null}
                 trend={Bmr !== null && oldBmr !== null && parseFloat((Bmr - oldBmr).toFixed(0)) >= 0 ? 'up' : 'down'}
+                isCalculating={isCalculating}
               />
 
               <DigitalWallet
@@ -301,6 +302,7 @@ export default function Page(): React.JSX.Element {
                     : 'down'
                 }
                 isDiff={oldTotalCalorie !== null}
+                isCalculating={isCalculating}
               />
               <DigitalWallet
                 amount={TargetCalorie ? TargetCalorie.toFixed(0) : '---'}
@@ -323,6 +325,7 @@ export default function Page(): React.JSX.Element {
                     ? 'up'
                     : 'down'
                 }
+                isCalculating={isCalculating}
               />
             </Box>
           </Grid>
@@ -345,10 +348,18 @@ export default function Page(): React.JSX.Element {
                   }}
                 >
                   <Typography color="text.secondary">Protein</Typography>
-                  {Protein ? (
-                    <Typography variant="h3">{Protein.toFixed(2)} g</Typography>
+                  {isCalculating ? (
+                    <Box>
+                      <CircularProgress size={40} />
+                    </Box>
                   ) : (
-                    <Typography variant="h3">---</Typography>
+                    <>
+                      {Protein ? (
+                        <Typography variant="h3">{Protein.toFixed(2)} g</Typography>
+                      ) : (
+                        <Typography variant="h3">---</Typography>
+                      )}
+                    </>
                   )}
                   <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                     {oldProtein !== null && Protein !== null ? (
@@ -388,10 +399,18 @@ export default function Page(): React.JSX.Element {
                   }}
                 >
                   <Typography color="text.secondary">Fats</Typography>
-                  {Fats ? (
-                    <Typography variant="h3">{Fats.toFixed(2)} g</Typography>
+                  {isCalculating ? (
+                    <Box>
+                      <CircularProgress size={40} />
+                    </Box>
                   ) : (
-                    <Typography variant="h3">---</Typography>
+                    <>
+                      {Fats ? (
+                        <Typography variant="h3">{Fats.toFixed(2)} g</Typography>
+                      ) : (
+                        <Typography variant="h3">---</Typography>
+                      )}
+                    </>
                   )}
                   <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                     {oldFats !== null && Fats !== null ? (
@@ -431,13 +450,20 @@ export default function Page(): React.JSX.Element {
                   }}
                 >
                   <Typography color="text.secondary">Cabohydrates</Typography>
-                  <Typography variant="h3">
-                    {Carbos ? (
-                      <Typography variant="h3">{Carbos.toFixed(2)} g</Typography>
-                    ) : (
-                      <Typography variant="h3">---</Typography>
-                    )}
-                  </Typography>
+                  {isCalculating ? (
+                    <Box>
+                      <CircularProgress size={40} />
+                    </Box>
+                  ) : (
+                    <>
+                      {Carbos ? (
+                        <Typography variant="h3">{Carbos.toFixed(2)} g</Typography>
+                      ) : (
+                        <Typography variant="h3">---</Typography>
+                      )}
+                    </>
+                  )}
+
                   <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                     {oldCarbos !== null && Carbos !== null ? (
                       <>
@@ -469,10 +495,18 @@ export default function Page(): React.JSX.Element {
                 </Stack>
                 <Stack spacing={1}>
                   <Typography color="text.secondary">Fibre</Typography>
-                  {Fibre ? (
-                    <Typography variant="h3">{Fibre.toFixed(2)} g</Typography>
+                  {isCalculating ? (
+                    <Box>
+                      <CircularProgress size={40} />
+                    </Box>
                   ) : (
-                    <Typography variant="h3">---</Typography>
+                    <>
+                      {Fibre ? (
+                        <Typography variant="h3">{Fibre.toFixed(2)} g</Typography>
+                      ) : (
+                        <Typography variant="h3">---</Typography>
+                      )}
+                    </>
                   )}
                   <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                     {oldFibre !== null && Fibre !== null ? (

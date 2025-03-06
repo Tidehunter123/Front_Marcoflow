@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { CircularProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
@@ -29,6 +30,7 @@ export interface DigitalWalletProps {
   diff: number | undefined | null;
   isDiff: boolean;
   trend: 'up' | 'down';
+  isCalculating: boolean;
 }
 
 export function DigitalWallet({
@@ -39,6 +41,7 @@ export function DigitalWallet({
   diff,
   isDiff,
   trend,
+  isCalculating,
 }: DigitalWalletProps): React.JSX.Element {
   const chartHeight = 100;
 
@@ -48,12 +51,18 @@ export function DigitalWallet({
     <Card>
       <Stack direction="row" spacing={3} sx={{ alignItems: 'flex-start', pt: 2, px: 2 }}>
         <Stack spacing={1} sx={{ flex: '1 1 auto' }}>
-          <Typography color="text.secondary" variant="h6">
-            <Typography color="text.primary" component="span" variant="inherit">
-              {amount}
-            </Typography>{' '}
-            kcal
-          </Typography>
+          {isCalculating ? (
+            <Box>
+              <CircularProgress size={20} />
+            </Box>
+          ) : (
+            <Typography color="text.secondary" variant="h6">
+              <Typography color="text.primary" component="span" variant="inherit">
+                {amount}
+              </Typography>{' '}
+              kcal
+            </Typography>
+          )}
           <Typography color="text.secondary" variant="body2">
             {type}
           </Typography>

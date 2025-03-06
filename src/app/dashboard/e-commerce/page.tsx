@@ -25,7 +25,7 @@ export default function Page(): React.JSX.Element {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://backend.macroflow.io/profiles/${user?.id}`); // Replace with your API endpoint
+        const response = await fetch(`http://backend.macroflow.io/profiles/${user?.id}`); // Replace with your API endpoint
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }

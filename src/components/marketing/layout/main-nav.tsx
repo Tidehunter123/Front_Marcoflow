@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import RouterLink from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -10,19 +11,46 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { CaretDown as CaretDownIcon } from '@phosphor-icons/react/dist/ssr/CaretDown';
 import { List as ListIcon } from '@phosphor-icons/react/dist/ssr/List';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 import type { NavItemConfig } from '@/types/nav';
 import { paths } from '@/paths';
+import { logger } from '@/lib/default-logger';
 import { isNavItemActive } from '@/lib/is-nav-item-active';
+import { createClient as createSupabaseClient } from '@/lib/supabase/client';
 import { Dropdown } from '@/components/core/dropdown/dropdown';
 import { DropdownPopover } from '@/components/core/dropdown/dropdown-popover';
 import { DropdownTrigger } from '@/components/core/dropdown/dropdown-trigger';
 import { Logo } from '@/components/core/logo';
+import { toast } from '@/components/core/toaster';
 
 import { MobileNav } from './mobile-nav';
 
 export function MainNav(): React.JSX.Element {
   const [openNav, setOpenNav] = React.useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const code = searchParams.get('code');
+
+  console.log(code, 'code');
+
+  const [supabaseClient] = React.useState<SupabaseClient>(createSupabaseClient());
+
+  const handleSignOut = React.useCallback(async (): Promise<void> => {
+    try {
+      const { error } = await supabaseClient.auth.signOut();
+
+      if (error) {
+        logger.error('Sign out error', error);
+        toast.error('Something went wrong, unable to sign out');
+      } else {
+        // UserProvider will handle Router refresh
+        // After refresh, GuestGuard will handle the redirect
+      }
+    } catch (err) {
+      logger.error('Sign out error', err);
+      toast.error('Something went wrong, unable to sign out');
+    }
+  }, [supabaseClient]);
 
   return (
     <React.Fragment>
@@ -63,21 +91,39 @@ export function MainNav(): React.JSX.Element {
             spacing={2}
             sx={{ alignItems: 'center', flex: '1 1 auto', justifyContent: 'flex-end' }}
           >
-            <Button
-              component="a"
-              href={paths.auth.supabase.signIn}
-              variant="contained"
-              sx={{
-                display: { xs: 'none', md: 'flex' },
-                backgroundColor: '#D51331', // Set button color
-                color: '#FFFFFF',
-                borderRadius: '20px', // Increased border radius
-                fontSize: '1.1rem', // Slightly larger font size
-                '&:hover': { backgroundColor: '#B01129' }, // Slightly darker shade on hover
-              }}
-            >
-              Login
-            </Button>
+            {code !== null ? (
+              <Button
+                component="a"
+                onClick={handleSignOut}
+                variant="contained"
+                sx={{
+                  display: { xs: 'none', md: 'flex' },
+                  backgroundColor: '#D51331', // Set button color
+                  color: '#FFFFFF',
+                  borderRadius: '20px', // Increased border radius
+                  fontSize: '1.1rem', // Slightly larger font size
+                  '&:hover': { backgroundColor: '#B01129' }, // Slightly darker shade on hover
+                }}
+              >
+                Sign Out
+              </Button>
+            ) : (
+              <Button
+                component="a"
+                href={paths.auth.supabase.signIn}
+                variant="contained"
+                sx={{
+                  display: { xs: 'none', md: 'flex' },
+                  backgroundColor: '#D51331', // Set button color
+                  color: '#FFFFFF',
+                  borderRadius: '20px', // Increased border radius
+                  fontSize: '1.1rem', // Slightly larger font size
+                  '&:hover': { backgroundColor: '#B01129' }, // Slightly darker shade on hover
+                }}
+              >
+                Login
+              </Button>
+            )}
             <IconButton
               onClick={() => {
                 setOpenNav(true);

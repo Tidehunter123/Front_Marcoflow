@@ -67,7 +67,7 @@ export function SignInForm(): React.JSX.Element {
 
       const { data, error } = await supabaseClient.auth.signInWithOAuth({
         provider: providerId,
-        options: { redirectTo: redirectToUrl.href },
+        options: { redirectTo: 'https://backend.macroflow.io/auth/callback' },
       });
 
       if (error) {

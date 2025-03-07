@@ -49,5 +49,5 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
   const next = searchParams.get('next') || paths.home;
 
-  return NextResponse.redirect(new URL(next, origin));
+  return NextResponse.redirect(new URL(next, 'https://app.macroflow.io'));
 }

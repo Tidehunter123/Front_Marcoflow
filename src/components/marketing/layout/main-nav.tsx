@@ -28,12 +28,17 @@ import { MobileNav } from './mobile-nav';
 
 export function MainNav(): React.JSX.Element {
   const [openNav, setOpenNav] = React.useState<boolean>(false);
+  const [supabaseClient] = React.useState<SupabaseClient>(createSupabaseClient());
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
 
   console.log(code, 'code');
 
-  const [supabaseClient] = React.useState<SupabaseClient>(createSupabaseClient());
+  React.useEffect(() => {
+    if (code) {
+      toast.success('Login Successfully.');
+    }
+  }, [code]);
 
   const handleSignOut = React.useCallback(async (): Promise<void> => {
     try {
@@ -45,6 +50,7 @@ export function MainNav(): React.JSX.Element {
       } else {
         // UserProvider will handle Router refresh
         // After refresh, GuestGuard will handle the redirect
+        window.location.replace('/');
       }
     } catch (err) {
       logger.error('Sign out error', err);

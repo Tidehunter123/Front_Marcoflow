@@ -62,7 +62,7 @@ export function SignInForm(): React.JSX.Element {
     async (providerId: OAuthProvider['id']): Promise<void> => {
       setIsPending(true);
 
-      const redirectToUrl = new URL(paths.auth.supabase.callback.pkce, window.location.origin);
+      const redirectToUrl = new URL(paths.auth.supabase.callback.pkce, 'http://localhost:3000');
       redirectToUrl.searchParams.set('next', paths.dashboard.overview);
 
       const { data, error } = await supabaseClient.auth.signInWithOAuth({

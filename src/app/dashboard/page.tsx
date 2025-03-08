@@ -317,6 +317,8 @@ export default function Page(): React.JSX.Element {
         const profileData = result.Profile;
         const summaryData = result.CalculationData.json_data.summary;
 
+        console.log(profileData, 'profileData');
+
         setDateOfBirth(dayjs(profileData.date_of_birth));
         setIsDateOfBirthValid(true);
         setGender(profileData.gender);

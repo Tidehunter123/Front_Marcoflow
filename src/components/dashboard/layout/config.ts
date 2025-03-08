@@ -20,7 +20,7 @@ export const layoutConfig = {
         {
           key: 'Smart Adjustments',
           title: 'Smart Adjustments',
-          // href: paths.dashboard.analytics,
+          href: paths.dashboard.analytics,
           icon: 'smart_adjustment',
         },
         {

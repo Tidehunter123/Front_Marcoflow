@@ -147,7 +147,7 @@ export default function Page(): React.JSX.Element {
         const result = await response.json();
         console.log(result, 'result');
 
-        const summaryData = result.CalculationData.json_data.macroflow_results.summary;
+        const summaryData = result.CalculationData.json_data.summary;
 
         setBmr(summaryData.BMR);
         setTargetCalorie(summaryData.Target_Calories);
@@ -355,7 +355,7 @@ export default function Page(): React.JSX.Element {
                   ) : (
                     <>
                       {Protein ? (
-                        <Typography variant="h3">{Protein.toFixed(2)} g</Typography>
+                        <Typography variant="h3">{Protein.toFixed(0)} g</Typography>
                       ) : (
                         <Typography variant="h3">---</Typography>
                       )}
@@ -370,7 +370,7 @@ export default function Page(): React.JSX.Element {
                             <TrendUpIcon color="var(--mui-palette-success-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
                               <Typography color="success.main" component="span" variant="subtitle2">
-                                {Math.abs(Protein - oldProtein).toFixed(2)} g
+                                {Math.abs(Protein - oldProtein).toFixed(0)} g
                               </Typography>{' '}
                               increase
                             </Typography>
@@ -380,7 +380,7 @@ export default function Page(): React.JSX.Element {
                             <TrendDownIcon color="var(--mui-palette-error-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
                               <Typography color="error.main" component="span" variant="subtitle2">
-                                {Math.abs(Protein - oldProtein).toFixed(2)} g
+                                {Math.abs(Protein - oldProtein).toFixed(0)} g
                               </Typography>{' '}
                               decrease
                             </Typography>
@@ -406,7 +406,7 @@ export default function Page(): React.JSX.Element {
                   ) : (
                     <>
                       {Fats ? (
-                        <Typography variant="h3">{Fats.toFixed(2)} g</Typography>
+                        <Typography variant="h3">{Fats.toFixed(0)} g</Typography>
                       ) : (
                         <Typography variant="h3">---</Typography>
                       )}
@@ -421,7 +421,7 @@ export default function Page(): React.JSX.Element {
                             <TrendUpIcon color="var(--mui-palette-success-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
                               <Typography color="success.main" component="span" variant="subtitle2">
-                                {Math.abs(Fats - oldFats).toFixed(2)} g
+                                {Math.abs(Fats - oldFats).toFixed(0)} g
                               </Typography>{' '}
                               increase
                             </Typography>
@@ -431,7 +431,7 @@ export default function Page(): React.JSX.Element {
                             <TrendDownIcon color="var(--mui-palette-error-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
                               <Typography color="error.main" component="span" variant="subtitle2">
-                                {Math.abs(Fats - oldFats).toFixed(2)} g
+                                {Math.abs(Fats - oldFats).toFixed(0)} g
                               </Typography>{' '}
                               decrease
                             </Typography>
@@ -457,7 +457,7 @@ export default function Page(): React.JSX.Element {
                   ) : (
                     <>
                       {Carbos ? (
-                        <Typography variant="h3">{Carbos.toFixed(2)} g</Typography>
+                        <Typography variant="h3">{Carbos.toFixed(0)} g</Typography>
                       ) : (
                         <Typography variant="h3">---</Typography>
                       )}
@@ -473,7 +473,7 @@ export default function Page(): React.JSX.Element {
                             <TrendUpIcon color="var(--mui-palette-success-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
                               <Typography color="success.main" component="span" variant="subtitle2">
-                                {Math.abs(Carbos - oldCarbos).toFixed(2)} g
+                                {Math.abs(Carbos - oldCarbos).toFixed(0)} g
                               </Typography>{' '}
                               increase
                             </Typography>
@@ -483,7 +483,7 @@ export default function Page(): React.JSX.Element {
                             <TrendDownIcon color="var(--mui-palette-error-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
                               <Typography color="error.main" component="span" variant="subtitle2">
-                                {Math.abs(Carbos - oldCarbos).toFixed(2)} g
+                                {Math.abs(Carbos - oldCarbos).toFixed(0)} g
                               </Typography>{' '}
                               decrease
                             </Typography>
@@ -502,7 +502,7 @@ export default function Page(): React.JSX.Element {
                   ) : (
                     <>
                       {Fibre ? (
-                        <Typography variant="h3">{Fibre.toFixed(2)} g</Typography>
+                        <Typography variant="h3">{Fibre.toFixed(0)} g</Typography>
                       ) : (
                         <Typography variant="h3">---</Typography>
                       )}
@@ -517,7 +517,7 @@ export default function Page(): React.JSX.Element {
                             <TrendUpIcon color="var(--mui-palette-success-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
                               <Typography color="success.main" component="span" variant="subtitle2">
-                                {Math.abs(Fibre - oldFibre).toFixed(2)} g
+                                {Math.abs(Fibre - oldFibre).toFixed(0)} g
                               </Typography>{' '}
                               increase
                             </Typography>
@@ -527,7 +527,7 @@ export default function Page(): React.JSX.Element {
                             <TrendDownIcon color="var(--mui-palette-error-main)" fontSize="var(--icon-fontSize-md)" />
                             <Typography color="text.secondary" variant="body2">
                               <Typography color="error.main" component="span" variant="subtitle2">
-                                {Math.abs(Fibre - oldFibre).toFixed(2)} g
+                                {Math.abs(Fibre - oldFibre).toFixed(0)} g
                               </Typography>{' '}
                               decrease
                             </Typography>

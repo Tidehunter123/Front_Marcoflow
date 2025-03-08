@@ -144,7 +144,7 @@ export default function Page(): React.JSX.Element {
   const [selectedStyle, setSelectedStyle] = React.useState('balanced');
   const [calorieCycling, setCalorieCycling] = React.useState(false);
   const [calorieBanking, setCalorieBanking] = React.useState(false);
-  const [mode, setMode] = React.useState<'fat_loss' | 'muscle_gain'>('fat_loss');
+  const [mode, setMode] = React.useState<'fat_loss' | 'muscle_gain' | null>(null);
   const [selected, setSelected] = React.useState<string | null>(null);
   const [isHeightEditing, setIsHeightEditing] = React.useState(false); // State to manage edit mode
   const [isWeightEditing, setIsWeightEditing] = React.useState(false); // State to manage edit mode
@@ -154,6 +154,10 @@ export default function Page(): React.JSX.Element {
   const [bmr, setBmr] = React.useState<number | null>(null);
   const [totalCalorie, setTotalCalorie] = React.useState<number | null>(null);
   const [targetCalorie, setTargetCalorie] = React.useState<number | null>(null);
+  const [trainingDayCalories, setTrainingDayCalories] = React.useState<number | null>(null);
+  const [restDayCalories, setRestDayCalories] = React.useState<number | null>(null);
+  const [weekdayCalories, setWeekdayCalories] = React.useState<number | null>(null);
+  const [weekendCalories, setWeekendCalories] = React.useState<number | null>(null);
   const [protein, setProtein] = React.useState<number | null>(null);
   const [fats, setFats] = React.useState<number | null>(null);
   const [carbos, setCarbos] = React.useState<number | null>(null);
@@ -311,9 +315,10 @@ export default function Page(): React.JSX.Element {
         console.log(result, 'result');
 
         const profileData = result.Profile;
-        const summaryData = result.CalculationData.json_data.macroflow_results.summary;
+        const summaryData = result.CalculationData.json_data.summary;
 
         setDateOfBirth(dayjs(profileData.date_of_birth));
+        setIsDateOfBirthValid(true);
         setGender(profileData.gender);
         setHeight(profileData.height);
         setWeight(profileData.weight);
@@ -321,6 +326,8 @@ export default function Page(): React.JSX.Element {
         setTrainingGoal(profileData.training_goal);
         setTrainingHistory(profileData.training_history);
         setWorkoutsPerWeek(profileData.workouts_per_week);
+        setCalorieCycling(profileData.calorieCycling);
+        setCalorieBanking(profileData.calorieBanking);
         setBmr(summaryData.BMR);
         setTargetCalorie(summaryData.Target_Calories);
         setTotalCalorie(summaryData.Total_Maintenance_Calories);
@@ -328,6 +335,19 @@ export default function Page(): React.JSX.Element {
         setFats(summaryData.Fats);
         setCarbos(summaryData.Carbohydrates);
         setFibre(summaryData.Fibre);
+        setCalorieCycling(profileData.calorieCycling);
+        if (summaryData.TrainingDayCalories !== null) {
+          setTrainingDayCalories(summaryData.TrainingDayCalories);
+        }
+        if (summaryData.RestDayCalories !== null) {
+          setRestDayCalories(summaryData.RestDayCalories);
+        }
+        if (summaryData.WeekdayCalories !== null) {
+          setWeekdayCalories(summaryData.WeekdayCalories);
+        }
+        if (summaryData.WeekendCalories !== null) {
+          setWeekendCalories(summaryData.WeekendCalories);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -885,41 +905,43 @@ export default function Page(): React.JSX.Element {
             </ToggleButtonGroup>
 
             {/* Selection Cards */}
-            <Grid container spacing={2}>
-              {options[mode].map(({ label, kcal, value, color }) => (
-                <Grid
-                  size={{
-                    md: 6,
-                    xs: 12,
-                  }}
-                  key={value}
-                >
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Card
-                      onClick={() => {
-                        setSelected(kcal);
-                      }}
-                      sx={{
-                        p: 2,
-                        cursor: 'pointer',
-                        textAlign: 'center',
-                        backgroundColor: '#FFFFFF',
-                        border: selected === kcal ? `3px solid ${color}` : '1px solid #E3E3E3',
-                        transition: 'all 0.3s ease',
-                        boxShadow: selected === kcal ? `0px 4px 15px ${color}` : 'none',
-                      }}
-                    >
-                      <Typography variant="h6" fontWeight="bold" color="#000000">
-                        {label}
-                      </Typography>
-                      <Typography variant="body2" color="#000000">
-                        {kcal}
-                      </Typography>
-                    </Card>
-                  </motion.div>
-                </Grid>
-              ))}
-            </Grid>
+            {mode ? (
+              <Grid container spacing={2}>
+                {options[mode].map(({ label, kcal, value, color }) => (
+                  <Grid
+                    size={{
+                      md: 6,
+                      xs: 12,
+                    }}
+                    key={value}
+                  >
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <Card
+                        onClick={() => {
+                          setSelected(kcal);
+                        }}
+                        sx={{
+                          p: 2,
+                          cursor: 'pointer',
+                          textAlign: 'center',
+                          backgroundColor: '#FFFFFF',
+                          border: selected === kcal ? `3px solid ${color}` : '1px solid #E3E3E3',
+                          transition: 'all 0.3s ease',
+                          boxShadow: selected === kcal ? `0px 4px 15px ${color}` : 'none',
+                        }}
+                      >
+                        <Typography variant="h6" fontWeight="bold" color="#000000">
+                          {label}
+                        </Typography>
+                        <Typography variant="body2" color="#000000">
+                          {kcal}
+                        </Typography>
+                      </Card>
+                    </motion.div>
+                  </Grid>
+                ))}
+              </Grid>
+            ) : null}
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -1156,6 +1178,258 @@ export default function Page(): React.JSX.Element {
               </Box>
             </Grid>
           </Grid>
+          {trainingDayCalories && restDayCalories ? (
+            <Grid container spacing={8}>
+              <Grid
+                size={{
+                  md: 6,
+                  xs: 12,
+                }}
+              >
+                <Box>
+                  <RadialBarChart
+                    barSize={24}
+                    data={data}
+                    endAngle={360} // Full circle
+                    height={150} // Reduce height
+                    innerRadius={100} // Reduce inner radius
+                    startAngle={0} // Full circle
+                    width={150} // Reduce width
+                  >
+                    <defs>
+                      <linearGradient id="gradientFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="rgba(253, 250, 83, 1)" /> {/* Start color */}
+                        <stop offset="100%" stopColor="#D51331" /> {/* End color */}
+                      </linearGradient>
+                    </defs>
+                    <RadialBar
+                      animationDuration={300}
+                      background
+                      cornerRadius={10}
+                      dataKey="value"
+                      endAngle={360} // Full circle
+                      fill="url(#gradientFill)"
+                      startAngle={0} // Full circle
+                    />
+                  </RadialBarChart>
+                  <Box
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                      <Typography mt={2} color="#000000">
+                        Train
+                      </Typography>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <>
+                          <Typography fontWeight="bold" variant="h5" color="#000000">
+                            {trainingDayCalories === null ? '-' : trainingDayCalories?.toFixed(0)}
+                          </Typography>
+                          <Typography mt={-1} color="#000000">
+                            kcal
+                          </Typography>
+                        </>
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid
+                size={{
+                  md: 6,
+                  xs: 12,
+                }}
+              >
+                <Box>
+                  <RadialBarChart
+                    barSize={24}
+                    data={data}
+                    endAngle={360} // Full circle
+                    height={150} // Reduce height
+                    innerRadius={100} // Reduce inner radius
+                    startAngle={0} // Full circle
+                    width={150} // Reduce width
+                  >
+                    <defs>
+                      <linearGradient id="gradientFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="rgba(253, 250, 83, 1)" /> {/* Start color */}
+                        <stop offset="100%" stopColor="#D51331" /> {/* End color */}
+                      </linearGradient>
+                    </defs>
+                    <RadialBar
+                      animationDuration={300}
+                      background
+                      cornerRadius={10}
+                      dataKey="value"
+                      endAngle={360} // Full circle
+                      fill="url(#gradientFill)"
+                      startAngle={0} // Full circle
+                    />
+                  </RadialBarChart>
+                  <Box
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                      <Typography mt={2} color="#000000">
+                        Rest
+                      </Typography>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <>
+                          <Typography fontWeight="bold" variant="h5" color="#000000">
+                            {restDayCalories === null ? '-' : restDayCalories?.toFixed(0)}
+                          </Typography>
+                          <Typography mt={-1} color="#000000">
+                            kcal
+                          </Typography>
+                        </>
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          ) : null}
+          {weekdayCalories && weekendCalories ? (
+            <Grid container spacing={8}>
+              <Grid
+                size={{
+                  md: 6,
+                  xs: 12,
+                }}
+              >
+                <Box>
+                  <RadialBarChart
+                    barSize={24}
+                    data={data}
+                    endAngle={360} // Full circle
+                    height={150} // Reduce height
+                    innerRadius={100} // Reduce inner radius
+                    startAngle={0} // Full circle
+                    width={150} // Reduce width
+                  >
+                    <defs>
+                      <linearGradient id="gradientFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="rgba(253, 250, 83, 1)" /> {/* Start color */}
+                        <stop offset="100%" stopColor="#D51331" /> {/* End color */}
+                      </linearGradient>
+                    </defs>
+                    <RadialBar
+                      animationDuration={300}
+                      background
+                      cornerRadius={10}
+                      dataKey="value"
+                      endAngle={360} // Full circle
+                      fill="url(#gradientFill)"
+                      startAngle={0} // Full circle
+                    />
+                  </RadialBarChart>
+                  <Box
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                      <Typography variant="body2" mt={2} color="#000000">
+                        Weekday
+                      </Typography>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <>
+                          <Typography fontWeight="bold" variant="h5" color="#000000">
+                            {weekdayCalories === null ? '-' : weekdayCalories?.toFixed(0)}
+                          </Typography>
+                          <Typography mt={-1} color="#000000">
+                            kcal
+                          </Typography>
+                        </>
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid
+                size={{
+                  md: 6,
+                  xs: 12,
+                }}
+              >
+                <Box>
+                  <RadialBarChart
+                    barSize={24}
+                    data={data}
+                    endAngle={360} // Full circle
+                    height={150} // Reduce height
+                    innerRadius={100} // Reduce inner radius
+                    startAngle={0} // Full circle
+                    width={150} // Reduce width
+                  >
+                    <defs>
+                      <linearGradient id="gradientFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="rgba(253, 250, 83, 1)" /> {/* Start color */}
+                        <stop offset="100%" stopColor="#D51331" /> {/* End color */}
+                      </linearGradient>
+                    </defs>
+                    <RadialBar
+                      animationDuration={300}
+                      background
+                      cornerRadius={10}
+                      dataKey="value"
+                      endAngle={360} // Full circle
+                      fill="url(#gradientFill)"
+                      startAngle={0} // Full circle
+                    />
+                  </RadialBarChart>
+                  <Box
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                      <Typography variant="body2" mt={2} color="#000000">
+                        Weekend
+                      </Typography>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <>
+                          <Typography fontWeight="bold" variant="h5" color="#000000">
+                            {weekendCalories === null ? '-' : weekendCalories?.toFixed(0)}
+                          </Typography>
+                          <Typography mt={-1} color="#000000">
+                            kcal
+                          </Typography>
+                        </>
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          ) : null}
           <Grid container spacing={3} justifyContent="center" py="30px">
             <Grid
               size={{
@@ -1179,7 +1453,7 @@ export default function Page(): React.JSX.Element {
                     </Box>
                   ) : (
                     <Typography variant="h6" fontWeight="bold">
-                      {protein === null ? '---' : `${protein?.toFixed(2)}g`}
+                      {protein === null ? '---' : `${protein?.toFixed(0)}g`}
                     </Typography>
                   )}
                   <Typography variant="body2" color="textSecondary">
@@ -1210,7 +1484,7 @@ export default function Page(): React.JSX.Element {
                     </Box>
                   ) : (
                     <Typography variant="h6" fontWeight="bold">
-                      {fats === null ? '---' : `${fats?.toFixed(2)}g`}
+                      {fats === null ? '---' : `${fats?.toFixed(0)}g`}
                     </Typography>
                   )}
                   <Typography variant="body2" color="textSecondary">
@@ -1241,7 +1515,7 @@ export default function Page(): React.JSX.Element {
                     </Box>
                   ) : (
                     <Typography variant="h6" fontWeight="bold">
-                      {carbos === null ? '---' : `${carbos?.toFixed(2)}g`}
+                      {carbos === null ? '---' : `${carbos?.toFixed(0)}g`}
                     </Typography>
                   )}
                   <Typography variant="body2" color="textSecondary">
@@ -1274,7 +1548,7 @@ export default function Page(): React.JSX.Element {
                     </Box>
                   ) : (
                     <Typography variant="h6" fontWeight="bold">
-                      {fibre === null ? '---' : `${fibre?.toFixed(2)}g`}
+                      {fibre === null ? '---' : `${fibre?.toFixed(0)}g`}
                     </Typography>
                   )}
                   <Typography variant="body2" color="textSecondary">

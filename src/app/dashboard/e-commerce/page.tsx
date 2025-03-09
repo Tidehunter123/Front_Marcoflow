@@ -185,7 +185,7 @@ export default function Page(): React.JSX.Element {
                 <Tab label="Weekly WL 0.5%" value="-0.5%" />
                 <Tab label="Weekly WL 1%" value="-1%" />
                 <Tab label="Weekly MG 0.5%" value="+0.5%" />
-                <Tab label="Weekly MG 1%" value="+0.75%" />
+                <Tab label="Weekly MG 0.75%" value="+0.75%" />
               </Tabs>
 
               <TableContainer component={Paper} elevation={3} sx={{ maxHeight: '65vh', overflowY: 'auto' }}>

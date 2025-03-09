@@ -32,13 +32,28 @@ export function MainNav(): React.JSX.Element {
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
 
-  console.log(code, 'code');
-
   React.useEffect(() => {
     if (code) {
-      toast.success('Login Successfully.');
+      toast.success(
+        <div style={{ textAlign: 'center', fontWeight: '500', lineHeight: '1.5' }}>
+          Login successfully <br />
+        </div>,
+        {
+          icon: '⚡', // Custom icon for a modern touch
+          duration: 4000, // Display duration in milliseconds
+          style: {
+            borderRadius: '8px',
+            borderColor: 'rgba(0, 0, 0, 0.8)',
+            background: '#F9FAFB', // Light modern background
+            color: '#333', // Dark text for better readability
+            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+            padding: '12px 16px',
+            fontSize: '14px',
+          },
+        }
+      );
     }
-  }, [code]);
+  }, []);
 
   const handleSignOut = React.useCallback(async (): Promise<void> => {
     try {

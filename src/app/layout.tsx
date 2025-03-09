@@ -43,7 +43,18 @@ export default async function Layout({ children }: LayoutProps): Promise<React.J
                   <ThemeProvider>
                     {children}
                     {/* <SettingsButton /> */}
-                    <Toaster position="bottom-right" />
+                    <Toaster
+                      position="top-center"
+                      offset="100px"
+                      toastOptions={{
+                        className: 'custom-toast',
+                        style: {
+                          borderRadius: '15px',
+                          padding: '16px',
+                          fontSize: '16px',
+                        },
+                      }}
+                    />
                   </ThemeProvider>
                 </I18nProvider>
               </SettingsProvider>

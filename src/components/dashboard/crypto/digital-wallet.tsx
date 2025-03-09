@@ -14,12 +14,16 @@ import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-export type Type = 'BMR' | 'Total' | 'Target';
+export type Type = 'BMR' | 'Total' | 'Target' | 'TrainingDay' | 'RestDay' | 'Weekday' | 'Weekend';
 
 const fitnessIcons: Record<Type, string> = {
   BMR: '/assets/icon-bmr.svg', // Example: An icon representing basal metabolic rate
   Total: '/assets/icon-maintenance-calories.svg', // Example: An icon representing daily calorie needs
   Target: '/assets/icon-target-calories.svg', // Example: An icon representing goal-specific calories
+  TrainingDay: '/assets/icon-bmr.svg', // Example: An icon representing basal metabolic rate
+  RestDay: '/assets/icon-maintenance-calories.svg', // Example: An icon representing daily calorie needs
+  Weekday: '/assets/icon-target-calories.svg', // Example: An icon representing goal-specific calories
+  Weekend: '/assets/icon-target-calories.svg',
 };
 
 export interface DigitalWalletProps {

@@ -24,6 +24,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { RadialBar, RadialBarChart } from 'recharts';
 
 import { UserContext } from '@/contexts/auth/user-context';
+import { toast } from '@/components/core/toaster';
 
 type TrainingGoalKey =
   | 'fat_loss'
@@ -163,6 +164,26 @@ export default function Page(): React.JSX.Element {
   const [carbos, setCarbos] = React.useState<number | null>(null);
   const [fibre, setFibre] = React.useState<number | null>(null);
 
+  const [trainingDayProtein, setTrainingDayProtein] = React.useState<number | null>(null);
+  const [trainingDayFats, setTrainingDayFats] = React.useState<number | null>(null);
+  const [trainingDayCarbos, setTrainingDayCarbos] = React.useState<number | null>(null);
+  const [trainingDayFibre, setTrainingDayFibre] = React.useState<number | null>(null);
+
+  const [restDayProtein, setRestDayProtein] = React.useState<number | null>(null);
+  const [restDayFats, setRestDayFats] = React.useState<number | null>(null);
+  const [restDayCarbos, setRestDayCarbos] = React.useState<number | null>(null);
+  const [restDayFibre, setRestDayFibre] = React.useState<number | null>(null);
+
+  const [weekDayProtein, setWeekDayProtein] = React.useState<number | null>(null);
+  const [weekDayFats, setWeekDayFats] = React.useState<number | null>(null);
+  const [weekDayCarbos, setWeekDayCarbos] = React.useState<number | null>(null);
+  const [weekDayFibre, setWeekDayFibre] = React.useState<number | null>(null);
+
+  const [weekendProtein, setWeekendProtein] = React.useState<number | null>(null);
+  const [weekendFats, setWeekendFats] = React.useState<number | null>(null);
+  const [weekendCarbos, setWeekendCarbos] = React.useState<number | null>(null);
+  const [weekendFibre, setWeekendFibre] = React.useState<number | null>(null);
+
   if (!userContext) {
     throw new Error('UserContext is not available. Make sure the component is wrapped in a UserProvider.');
   }
@@ -211,6 +232,70 @@ export default function Page(): React.JSX.Element {
 
     // If calorieCycling or calorieBanking is enabled, set it to 'balanced' after 1 second
     if (calorieCycling || calorieBanking) {
+      if (calorieCycling && calorieBanking) {
+        toast.info(
+          <div style={{ textAlign: 'center', fontWeight: '500', lineHeight: '1.5' }}>
+            Both Calorie Cycling mode and Calorie Banking modeactivated. <br />
+            <span style={{ color: '#D51331' }}>Balanced</span> Nutrition method will be applied.
+          </div>,
+          {
+            icon: '⚡', // Custom icon for a modern touch
+            duration: 4000, // Display duration in milliseconds
+            style: {
+              borderRadius: '8px',
+              borderColor: 'rgba(0, 0, 0, 0.8)',
+              background: '#F9FAFB', // Light modern background
+              color: '#333', // Dark text for better readability
+              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+              padding: '12px 16px',
+              fontSize: '14px',
+            },
+          }
+        );
+      } else {
+        if (calorieCycling) {
+          toast.info(
+            <div style={{ textAlign: 'center', fontWeight: '500', lineHeight: '1.5' }}>
+              Calorie Cycling mode activated. <br />
+              <span style={{ color: '#D51331' }}>Balanced</span> Nutrition method will be applied.
+            </div>,
+            {
+              icon: '⚡', // Custom icon for a modern touch
+              duration: 4000, // Display duration in milliseconds
+              style: {
+                borderRadius: '8px',
+                borderColor: 'rgba(0, 0, 0, 0.8)',
+                background: '#F9FAFB', // Light modern background
+                color: '#333', // Dark text for better readability
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                padding: '12px 16px',
+                fontSize: '14px',
+              },
+            }
+          );
+        }
+        if (calorieBanking) {
+          toast.info(
+            <div style={{ textAlign: 'center', fontWeight: '500', lineHeight: '1.5' }}>
+              Calorie Banking mode activated. <br />
+              <span style={{ color: '#D51331' }}>Balanced</span> Nutrition method will be applied.
+            </div>,
+            {
+              icon: '⚡', // Custom icon for a modern touch
+              duration: 4000, // Display duration in milliseconds
+              style: {
+                borderRadius: '8px',
+                borderColor: 'rgba(0, 0, 0, 0.8)',
+                background: '#F9FAFB', // Light modern background
+                color: '#333', // Dark text for better readability
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                padding: '12px 16px',
+                fontSize: '14px',
+              },
+            }
+          );
+        }
+      }
       setTimeout(() => {
         setSelectedStyle('balanced');
       }, 1000); // 1000 milliseconds = 1 second
@@ -337,7 +422,6 @@ export default function Page(): React.JSX.Element {
         setFats(summaryData.Fats);
         setCarbos(summaryData.Carbohydrates);
         setFibre(summaryData.Fibre);
-        setCalorieCycling(profileData.calorieCycling);
         if (summaryData.TrainingDayCalories !== null) {
           setTrainingDayCalories(summaryData.TrainingDayCalories);
         }
@@ -349,6 +433,58 @@ export default function Page(): React.JSX.Element {
         }
         if (summaryData.WeekendCalories !== null) {
           setWeekendCalories(summaryData.WeekendCalories);
+        }
+
+        if (summaryData.Training_Protein !== null) {
+          setTrainingDayProtein(summaryData.Training_Protein);
+        }
+        if (summaryData.Training_Fats !== null) {
+          setTrainingDayFats(summaryData.Training_Fats);
+        }
+        if (summaryData.Training_Carbohydrates !== null) {
+          setTrainingDayCarbos(summaryData.Training_Carbohydrates);
+        }
+        if (summaryData.Training_Fibre !== null) {
+          setTrainingDayFibre(summaryData.Training_Fibre);
+        }
+
+        if (summaryData.Rest_Protein !== null) {
+          setRestDayProtein(summaryData.Rest_Protein);
+        }
+        if (summaryData.Rest_Fats !== null) {
+          setRestDayFats(summaryData.Rest_Fats);
+        }
+        if (summaryData.Rest_Carbohydrates !== null) {
+          setRestDayCarbos(summaryData.Rest_Carbohydrates);
+        }
+        if (summaryData.Rest_Fibre !== null) {
+          setRestDayFibre(summaryData.Rest_Fibre);
+        }
+
+        if (summaryData.Weekday_Protein !== null) {
+          setWeekDayProtein(summaryData.Weekday_Protein);
+        }
+        if (summaryData.Weekday_Fats !== null) {
+          setWeekDayFats(summaryData.Weekday_Fats);
+        }
+        if (summaryData.Weekday_Carbohydrates !== null) {
+          setWeekDayCarbos(summaryData.Weekday_Carbohydrates);
+        }
+        if (summaryData.Weekday_Fibre !== null) {
+          setWeekDayFibre(summaryData.Weekday_Fibre);
+        }
+
+        if (summaryData.Weekend_Protein !== null) {
+          setWeekendProtein(summaryData.Weekend_Protein);
+        }
+        if (summaryData.Weekend_Fats !== null) {
+          setWeekendFats(summaryData.Weekend_Fats);
+        }
+        if (summaryData.Weekend_Carbohydrates !== null) {
+          setWeekendCarbos(summaryData.Weekend_Carbohydrates);
+        }
+        if (summaryData.Weekend_Fibre !== null) {
+          setWeekendFibre(summaryData.Weekend_Fibre);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -374,12 +510,11 @@ export default function Page(): React.JSX.Element {
             p: 'var(--Content-padding)',
             width: 'var(--Content-width)',
             backgroundColor: '#FFFFFF',
+            mt: -3,
           }}
         >
           <Box sx={{ flex: '1 1 auto' }}>
-            <Typography variant="h4" fontWeight="bold" color="#000000">
-              Macro & Calorie Calculator
-            </Typography>
+            <Typography variant="h4">Macro & Calorie Calculator</Typography>
           </Box>
 
           <Box>
@@ -985,15 +1120,14 @@ export default function Page(): React.JSX.Element {
             m: 'var(--Content-margin)',
             p: 'var(--Content-padding)',
             width: 'var(--Content-width)',
+            mt: -3,
           }}
         >
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h4" fontWeight="bold" color="#000000">
-              My Macro & Calorie
-            </Typography>
+            <Typography variant="h4">My Macro & Calorie</Typography>
           </Box>
           {/* Placeholder for additional content */}
-          <Grid container spacing={4} py="30px">
+          <Grid container spacing={4}>
             <Grid
               size={{
                 md: 12,
@@ -1432,134 +1566,1194 @@ export default function Page(): React.JSX.Element {
               </Grid>
             </Grid>
           ) : null}
-          <Grid container spacing={3} justifyContent="center" py="30px">
-            <Grid
-              size={{
-                md: 3,
-                xs: 12,
-              }}
-            >
-              <Card
-                sx={{
-                  textAlign: 'center',
-                  borderRadius: 3,
-                  boxShadow: 2,
-                  maxWidth: 120,
-                  height: 120,
+          {!trainingDayCalories && !weekdayCalories ? (
+            <Grid container spacing={3} justifyContent="center" py="30px">
+              <Grid
+                size={{
+                  md: 3,
+                  xs: 12,
                 }}
               >
-                <CardContent>
-                  {isCalculating ? (
-                    <Box sx={{ textAlign: 'center' }}>
-                      <CircularProgress size={20} />
-                    </Box>
-                  ) : (
-                    <Typography variant="h6" fontWeight="bold">
-                      {protein === null ? '---' : `${protein?.toFixed(0)}g`}
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    borderRadius: 3,
+                    boxShadow: 2,
+                    maxWidth: 120,
+                    height: 120,
+                  }}
+                >
+                  <CardContent>
+                    {isCalculating ? (
+                      <Box sx={{ textAlign: 'center' }}>
+                        <CircularProgress size={20} />
+                      </Box>
+                    ) : (
+                      <Typography variant="h6" fontWeight="bold">
+                        {protein === null ? '---' : `${protein?.toFixed(0)}g`}
+                      </Typography>
+                    )}
+                    <Typography variant="body2" color="textSecondary">
+                      Protein
                     </Typography>
-                  )}
-                  <Typography variant="body2" color="textSecondary">
-                    Protein
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid
-              size={{
-                md: 3,
-                xs: 12,
-              }}
-            >
-              <Card
-                sx={{
-                  textAlign: 'center',
-                  borderRadius: 3,
-                  boxShadow: 2,
-                  maxWidth: 120,
-                  height: 120,
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid
+                size={{
+                  md: 3,
+                  xs: 12,
                 }}
               >
-                <CardContent>
-                  {isCalculating ? (
-                    <Box sx={{ textAlign: 'center' }}>
-                      <CircularProgress size={20} />
-                    </Box>
-                  ) : (
-                    <Typography variant="h6" fontWeight="bold">
-                      {fats === null ? '---' : `${fats?.toFixed(0)}g`}
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    borderRadius: 3,
+                    boxShadow: 2,
+                    maxWidth: 120,
+                    height: 120,
+                  }}
+                >
+                  <CardContent>
+                    {isCalculating ? (
+                      <Box sx={{ textAlign: 'center' }}>
+                        <CircularProgress size={20} />
+                      </Box>
+                    ) : (
+                      <Typography variant="h6" fontWeight="bold">
+                        {fats === null ? '---' : `${fats?.toFixed(0)}g`}
+                      </Typography>
+                    )}
+                    <Typography variant="body2" color="textSecondary">
+                      Fats
                     </Typography>
-                  )}
-                  <Typography variant="body2" color="textSecondary">
-                    Fats
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid
-              size={{
-                md: 3,
-                xs: 12,
-              }}
-            >
-              <Card
-                sx={{
-                  textAlign: 'center',
-                  borderRadius: 3,
-                  boxShadow: 2,
-                  maxWidth: 120,
-                  height: 120,
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid
+                size={{
+                  md: 3,
+                  xs: 12,
                 }}
               >
-                <CardContent>
-                  {isCalculating ? (
-                    <Box sx={{ textAlign: 'center' }}>
-                      <CircularProgress size={20} />
-                    </Box>
-                  ) : (
-                    <Typography variant="h6" fontWeight="bold">
-                      {carbos === null ? '---' : `${carbos?.toFixed(0)}g`}
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    borderRadius: 3,
+                    boxShadow: 2,
+                    maxWidth: 120,
+                    height: 120,
+                  }}
+                >
+                  <CardContent>
+                    {isCalculating ? (
+                      <Box sx={{ textAlign: 'center' }}>
+                        <CircularProgress size={20} />
+                      </Box>
+                    ) : (
+                      <Typography variant="h6" fontWeight="bold">
+                        {carbos === null ? '---' : `${carbos?.toFixed(0)}g`}
+                      </Typography>
+                    )}
+                    <Typography variant="body2" color="textSecondary">
+                      Carbohy
+                      <br />
+                      drates
                     </Typography>
-                  )}
-                  <Typography variant="body2" color="textSecondary">
-                    Carbohy
-                    <br />
-                    drates
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid
-              size={{
-                md: 3,
-                xs: 12,
-              }}
-            >
-              <Card
-                sx={{
-                  textAlign: 'center',
-                  borderRadius: 3,
-                  boxShadow: 2,
-                  maxWidth: 120,
-                  height: 120,
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid
+                size={{
+                  md: 3,
+                  xs: 12,
                 }}
               >
-                <CardContent>
-                  {isCalculating ? (
-                    <Box sx={{ textAlign: 'center' }}>
-                      <CircularProgress size={20} />
-                    </Box>
-                  ) : (
-                    <Typography variant="h6" fontWeight="bold">
-                      {fibre === null ? '---' : `${fibre?.toFixed(0)}g`}
+                <Card
+                  sx={{
+                    textAlign: 'center',
+                    borderRadius: 3,
+                    boxShadow: 2,
+                    maxWidth: 120,
+                    height: 120,
+                  }}
+                >
+                  <CardContent>
+                    {isCalculating ? (
+                      <Box sx={{ textAlign: 'center' }}>
+                        <CircularProgress size={20} />
+                      </Box>
+                    ) : (
+                      <Typography variant="h6" fontWeight="bold">
+                        {fibre === null ? '---' : `${fibre?.toFixed(0)}g`}
+                      </Typography>
+                    )}
+                    <Typography variant="body2" color="textSecondary">
+                      Fibre
                     </Typography>
-                  )}
-                  <Typography variant="body2" color="textSecondary">
-                    Fibre
-                  </Typography>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-          </Grid>
+          ) : trainingDayCalories && !weekdayCalories ? (
+            <>
+              <Typography fontWeight="bold" variant="h5" color="#000000" mt={5}>
+                - TrainingDay Macros
+              </Typography>
+              <Grid container spacing={3} justifyContent="center" py="30px">
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {trainingDayProtein === null ? '---' : `${trainingDayProtein?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Protein
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {trainingDayFats === null ? '---' : `${trainingDayFats?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fats
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {trainingDayCarbos === null ? '---' : `${trainingDayCarbos?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Carbohy
+                        <br />
+                        drates
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {trainingDayFibre === null ? '---' : `${trainingDayFibre?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fibre
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+              <Typography fontWeight="bold" variant="h5" color="#000000">
+                - RestDay Macros
+              </Typography>
+              <Grid container spacing={3} justifyContent="center" py="30px">
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {restDayProtein === null ? '---' : `${restDayProtein?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Protein
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {restDayFats === null ? '---' : `${restDayFats?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fats
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {restDayCarbos === null ? '---' : `${restDayCarbos?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Carbohy
+                        <br />
+                        drates
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {restDayFibre === null ? '---' : `${restDayFibre?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fibre
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </>
+          ) : weekdayCalories && !trainingDayCalories ? (
+            <>
+              <Typography fontWeight="bold" variant="h5" color="#000000" mt={5}>
+                - Weekday Macros
+              </Typography>
+              <Grid container spacing={3} justifyContent="center" py="30px">
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekDayProtein === null ? '---' : `${weekDayProtein?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Protein
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekDayFats === null ? '---' : `${weekDayFats?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fats
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekDayCarbos === null ? '---' : `${weekDayCarbos?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Carbohy
+                        <br />
+                        drates
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekDayFibre === null ? '---' : `${weekDayFibre?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fibre
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+              <Typography fontWeight="bold" variant="h5" color="#000000">
+                - Weekend Macros
+              </Typography>
+              <Grid container spacing={3} justifyContent="center" py="30px">
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekendProtein === null ? '---' : `${weekendProtein?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Protein
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekendFats === null ? '---' : `${weekendFats?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fats
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekendCarbos === null ? '---' : `${weekendCarbos?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Carbohy
+                        <br />
+                        drates
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekendFibre === null ? '---' : `${weekendFibre?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fibre
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </>
+          ) : weekdayCalories && trainingDayCalories ? (
+            <>
+              <Typography fontWeight="bold" variant="h5" color="#000000" mt={5}>
+                - TrainingDay Macros
+              </Typography>
+              <Grid container spacing={3} justifyContent="center" py="30px">
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {trainingDayProtein === null ? '---' : `${trainingDayProtein?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Protein
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {trainingDayFats === null ? '---' : `${trainingDayFats?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fats
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {trainingDayCarbos === null ? '---' : `${trainingDayCarbos?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Carbohy
+                        <br />
+                        drates
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {trainingDayFibre === null ? '---' : `${trainingDayFibre?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fibre
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+              <Typography fontWeight="bold" variant="h5" color="#000000">
+                - RestDay Macros
+              </Typography>
+              <Grid container spacing={3} justifyContent="center" py="30px">
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {restDayProtein === null ? '---' : `${restDayProtein?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Protein
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {restDayFats === null ? '---' : `${restDayFats?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fats
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {restDayCarbos === null ? '---' : `${restDayCarbos?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Carbohy
+                        <br />
+                        drates
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {restDayFibre === null ? '---' : `${restDayFibre?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fibre
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+
+              <Typography fontWeight="bold" variant="h5" color="#000000">
+                - Weekday Macros
+              </Typography>
+              <Grid container spacing={3} justifyContent="center" py="30px">
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekDayProtein === null ? '---' : `${weekDayProtein?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Protein
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekDayFats === null ? '---' : `${weekDayFats?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fats
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekDayCarbos === null ? '---' : `${weekDayCarbos?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Carbohy
+                        <br />
+                        drates
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekDayFibre === null ? '---' : `${weekDayFibre?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fibre
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+              <Typography fontWeight="bold" variant="h5" color="#000000">
+                - Weekend Macros
+              </Typography>
+              <Grid container spacing={3} justifyContent="center" py="30px">
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekendProtein === null ? '---' : `${weekendProtein?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Protein
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekendFats === null ? '---' : `${weekendFats?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fats
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekendCarbos === null ? '---' : `${weekendCarbos?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Carbohy
+                        <br />
+                        drates
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid
+                  size={{
+                    md: 3,
+                    xs: 12,
+                  }}
+                >
+                  <Card
+                    sx={{
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      boxShadow: 2,
+                      maxWidth: 120,
+                      height: 120,
+                    }}
+                  >
+                    <CardContent>
+                      {isCalculating ? (
+                        <Box sx={{ textAlign: 'center' }}>
+                          <CircularProgress size={20} />
+                        </Box>
+                      ) : (
+                        <Typography variant="h6" fontWeight="bold">
+                          {weekendFibre === null ? '---' : `${weekendFibre?.toFixed(0)}g`}
+                        </Typography>
+                      )}
+                      <Typography variant="body2" color="textSecondary">
+                        Fibre
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </>
+          ) : null}
         </Grid>
       </Grid>
     </Stack>

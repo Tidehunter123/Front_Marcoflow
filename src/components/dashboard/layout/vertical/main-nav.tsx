@@ -12,8 +12,8 @@ import { Bell as BellIcon } from '@phosphor-icons/react/dist/ssr/Bell';
 import { List as ListIcon } from '@phosphor-icons/react/dist/ssr/List';
 
 import type { NavItemConfig } from '@/types/nav';
-import type { User } from '@/types/user';
 import { usePopover } from '@/hooks/use-popover';
+import { useUser } from '@/hooks/use-user';
 
 import { MobileNav } from '../mobile-nav';
 import { NotificationsPopover } from '../notifications-popover';
@@ -25,7 +25,6 @@ export interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps): React.JSX.Element {
   const [openNav, setOpenNav] = React.useState<boolean>(false);
-
   return (
     <React.Fragment>
       <Box
@@ -99,7 +98,8 @@ function NotificationsButton(): React.JSX.Element {
           sx={{ '& .MuiBadge-dot': { borderRadius: '50%', height: '10px', right: '6px', top: '6px', width: '10px' } }}
           variant="dot"
         >
-          <IconButton onClick={popover.handleOpen} ref={popover.anchorRef}>
+          {/* <IconButton onClick={popover.handleOpen} ref={popover.anchorRef}> */}
+          <IconButton>
             <BellIcon />
           </IconButton>
         </Badge>
@@ -109,15 +109,9 @@ function NotificationsButton(): React.JSX.Element {
   );
 }
 
-const user = {
-  id: 'USR-000',
-  name: 'Sofia Rivers',
-  avatar: '/assets/avatar.png',
-  email: 'sofia@devias.io',
-} satisfies User;
-
 function UserButton(): React.JSX.Element {
   const popover = usePopover<HTMLButtonElement>();
+  const { user } = useUser();
 
   return (
     <React.Fragment>
@@ -142,7 +136,7 @@ function UserButton(): React.JSX.Element {
           }}
           variant="dot"
         >
-          <Avatar src={user.avatar} />
+          <Avatar src={user?.avatar} />
         </Badge>
       </Box>
       <UserPopover anchorEl={popover.anchorRef.current} onClose={popover.handleClose} open={popover.open} />

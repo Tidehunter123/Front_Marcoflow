@@ -26,7 +26,7 @@ export const layoutConfig = {
         {
           key: 'Progress Tracking Chart',
           title: 'Tracking Chart',
-          // href: paths.dashboard.eCommerce,
+          href: paths.dashboard.eCommerce,
           icon: 'tracking_chart',
         },
       ],

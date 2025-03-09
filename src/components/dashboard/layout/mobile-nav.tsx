@@ -18,7 +18,6 @@ import { isNavItemActive } from '@/lib/is-nav-item-active';
 import { Logo } from '@/components/core/logo';
 
 import { icons } from './nav-icons';
-import { WorkspacesSwitch } from './workspaces-switch';
 
 export interface MobileNavProps {
   onClose?: () => void;
@@ -52,8 +51,8 @@ export function MobileNav({ items = [], open, onClose }: MobileNavProps): React.
           '--Workspaces-title-color': 'var(--mui-palette-neutral-400)',
           '--Workspaces-name-color': 'var(--mui-palette-neutral-300)',
           '--Workspaces-expand-color': 'var(--mui-palette-neutral-400)',
-          bgcolor: 'var(--MobileNav-background)',
-          color: 'var(--MobileNav-color)',
+          bgcolor: '#E3E3E3',
+          color: '#000000',
           display: 'flex',
           flexDirection: 'column',
           maxWidth: '100%',
@@ -69,10 +68,9 @@ export function MobileNav({ items = [], open, onClose }: MobileNavProps): React.
       <Stack spacing={2} sx={{ p: 2 }}>
         <div>
           <Box component={RouterLink} href={paths.home} sx={{ display: 'inline-flex' }}>
-            <Logo color="light" height={32} width={122} />
+            <Logo color="light" height={50} width={50} />
           </Box>
         </div>
-        <WorkspacesSwitch />
       </Stack>
       <Box component="nav" sx={{ flex: '1 1 auto', p: 2 }}>
         {renderNavGroups({ items, onClose, pathname })}
@@ -93,13 +91,6 @@ function renderNavGroups({
   const children = items.reduce((acc: React.ReactNode[], curr: NavItemConfig): React.ReactNode[] => {
     acc.push(
       <Stack component="li" key={curr.key} spacing={1.5}>
-        {curr.title ? (
-          <div>
-            <Typography sx={{ color: 'var(--NavGroup-title-color)', fontSize: '0.875rem', fontWeight: 500 }}>
-              {curr.title}
-            </Typography>
-          </div>
-        ) : null}
         <div>{renderNavItems({ depth: 0, items: curr.items, onClose, pathname })}</div>
       </Stack>
     );
@@ -208,7 +199,7 @@ function NavItem({
         sx={{
           alignItems: 'center',
           borderRadius: 1,
-          color: 'var(--NavItem-color)',
+          color: '#000000',
           cursor: 'pointer',
           display: 'flex',
           flex: '0 0 auto',
@@ -223,7 +214,7 @@ function NavItem({
             cursor: 'not-allowed',
           }),
           ...(active && {
-            bgcolor: 'var(--NavItem-active-background)',
+            bgcolor: 'rgba(0, 0, 0,0.2)',
             color: 'var(--NavItem-active-color)',
             ...(depth > 0 && {
               '&::before': {
@@ -248,7 +239,7 @@ function NavItem({
         <Box sx={{ alignItems: 'center', display: 'flex', justifyContent: 'center', flex: '0 0 auto' }}>
           {Icon ? (
             <Icon
-              fill={active ? 'var(--NavItem-icon-active-color)' : 'var(--NavItem-icon-color)'}
+              fill={active ? 'var(--NavItem-icon-active-color)' : '#000000'}
               fontSize="var(--icon-fontSize-md)"
               weight={forceOpen || active ? 'fill' : undefined}
             />

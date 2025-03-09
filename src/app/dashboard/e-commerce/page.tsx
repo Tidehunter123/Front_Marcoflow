@@ -12,6 +12,8 @@ import {
   TableHead,
   TableRow,
   Tabs,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
@@ -34,7 +36,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const columns = [
-  'Week',
   'Weight (kg)',
   'BMR (kcal)',
   'Total Maintenance Calories (kcal)',
@@ -46,7 +47,6 @@ const columns = [
 ];
 
 const cyclingColumns = [
-  'Week',
   'Weight (kg)',
   'BMR (kcal)',
   'Total Maintenance Calories (kcal)',
@@ -64,7 +64,6 @@ const cyclingColumns = [
 ];
 
 const bankingColumns = [
-  'Week',
   'Weight (kg)',
   'BMR (kcal)',
   'Total Maintenance Calories (kcal)',
@@ -97,6 +96,8 @@ const getTypeFromTab = (tab: '-0.5%' | '-1%' | '+0.5%' | '+0.75%') => {
 };
 
 export default function Page(): React.JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const userContext = React.useContext(UserContext);
   const [progressionData, setProgressionData] = React.useState<any[]>([]);
   const [weight, setWeight] = React.useState<number | null>(null);
@@ -108,7 +109,7 @@ export default function Page(): React.JSX.Element {
     throw new Error('UserContext is not available. Make sure the component is wrapped in a UserProvider.');
   }
 
-  const { user, isLoading, error } = userContext;
+  const { user } = userContext;
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -158,13 +159,13 @@ export default function Page(): React.JSX.Element {
         m: 'var(--Content-margin)',
         p: 'var(--Content-padding)',
         width: 'var(--Content-width)',
-        mt: -2,
+        mt: !isMobile ? -2 : 0,
       }}
     >
       <Stack spacing={4}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ alignItems: 'flex-start' }}>
           <Box sx={{ flex: '1 1 auto' }}>
-            <Typography variant="h4">Progress Tracking & Insights</Typography>
+            <Typography variant={isMobile ? 'h5' : 'h4'}>Progress Tracking & Insights</Typography>
           </Box>
         </Stack>
         <Grid container spacing={2}>
@@ -179,7 +180,7 @@ export default function Page(): React.JSX.Element {
                 sx={{
                   mb: 1,
                   '& .MuiTabs-indicator': { backgroundColor: '#D51331' },
-                  '& .MuiTab-root': { fontSize: '1.2rem' },
+                  '& .MuiTab-root': { fontSize: !isMobile ? '1.2rem' : '0.8rem' },
                 }}
               >
                 <Tab label="Weekly WL 0.5%" value="-0.5%" />
@@ -192,6 +193,19 @@ export default function Page(): React.JSX.Element {
                 <Table size="small" stickyHeader aria-label="nutrition table">
                   <TableHead sx={{ bgcolor: 'background.default' }}>
                     <TableRow>
+                      <TableCell
+                        sx={{
+                          fontSize: '0.9rem',
+                          color: 'rgba(0,0,0,0.8)',
+                          textAlign: 'center',
+                          position: 'sticky',
+                          left: 0,
+                          backgroundColor: 'white', // Keep background visible
+                          zIndex: 1000, // Ensures it stays above other columns
+                        }}
+                      >
+                        Week
+                      </TableCell>
                       {!calorieCycling &&
                         !calorieBanking &&
                         columns.map((col) => (
@@ -229,7 +243,17 @@ export default function Page(): React.JSX.Element {
                       !calorieBanking &&
                       progressionData.map((row) => (
                         <StyledTableRow key={row.Week}>
-                          <TableCell sx={{ textAlign: 'center' }}>{row.Week}</TableCell>
+                          <TableCell
+                            sx={{
+                              textAlign: 'center',
+                              position: 'sticky',
+                              left: 0,
+                              backgroundColor: 'white',
+                              zIndex: 1, // Keep it above body cells but below header
+                            }}
+                          >
+                            {row.Week}
+                          </TableCell>
                           <TableCell sx={{ textAlign: 'center' }}>{Number(row.Weight).toFixed(1)}</TableCell>
                           <TableCell sx={{ textAlign: 'center' }}>{Math.round(row.BMR)}</TableCell>
                           <TableCell sx={{ textAlign: 'center' }}>
@@ -245,7 +269,17 @@ export default function Page(): React.JSX.Element {
                     {calorieCycling && !calorieBanking
                       ? progressionData.map((row) => (
                           <StyledTableRow key={row.Week}>
-                            <TableCell sx={{ textAlign: 'center' }}>{row.Week}</TableCell>
+                            <TableCell
+                              sx={{
+                                textAlign: 'center',
+                                position: 'sticky',
+                                left: 0,
+                                backgroundColor: 'white',
+                                zIndex: 1, // Keep it above body cells but below header
+                              }}
+                            >
+                              {row.Week}
+                            </TableCell>
                             <TableCell sx={{ textAlign: 'center' }}>{Number(row.Weight).toFixed(1)}</TableCell>
                             <TableCell sx={{ textAlign: 'center' }}>{Math.round(row.BMR.toFixed(0))}</TableCell>
                             <TableCell sx={{ textAlign: 'center' }}>
@@ -286,7 +320,15 @@ export default function Page(): React.JSX.Element {
                     {!calorieCycling && calorieBanking
                       ? progressionData.map((row) => (
                           <StyledTableRow key={row.Week}>
-                            <TableCell sx={{ textAlign: 'center' }} b>
+                            <TableCell
+                              sx={{
+                                textAlign: 'center',
+                                position: 'sticky',
+                                left: 0,
+                                backgroundColor: 'white',
+                                zIndex: 1, // Keep it above body cells but below header
+                              }}
+                            >
                               {row.Week}
                             </TableCell>
                             <TableCell sx={{ textAlign: 'center' }}>{Number(row.Weight).toFixed(1)}</TableCell>

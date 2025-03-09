@@ -11,6 +11,8 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
@@ -121,14 +123,9 @@ const options = {
 
 const data = [{ name: 'Empty', value: 100 }] satisfies { name: string; value: number }[];
 
-const macronutrients = [
-  { id: 1, label: 'Protein', value: '46g', icon: '/icons/protein.svg' },
-  { id: 2, label: 'Carbs', value: '298g', icon: '/icons/carbs.svg' },
-  { id: 3, label: 'Fat', value: '112g', icon: '/icons/fat.svg' },
-  { id: 4, label: 'Fibre', value: '189g', icon: '/icons/fibre.svg' },
-];
-
 export default function Page(): React.JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const userContext = React.useContext(UserContext);
   const [dateOfBirth, setDateOfBirth] = React.useState<dayjs.Dayjs | null>(null);
   const [isDateOfBirthValid, setIsDateOfBirthValid] = React.useState(false);
@@ -496,6 +493,8 @@ export default function Page(): React.JSX.Element {
 
   console.log(user, isLoading, error, 'UserContext, UserProvider');
 
+  console.log(isMobile, 'firstpage is Mobile');
+
   return (
     <Stack spacing={4}>
       <Grid container spacing={4}>
@@ -514,7 +513,7 @@ export default function Page(): React.JSX.Element {
           }}
         >
           <Box sx={{ flex: '1 1 auto' }}>
-            <Typography variant="h4">Macro & Calorie Calculator</Typography>
+            <Typography variant={isMobile ? 'h5' : 'h4'}>Macro & Calorie Calculator</Typography>
           </Box>
 
           <Box>
@@ -589,7 +588,7 @@ export default function Page(): React.JSX.Element {
                   sx={{
                     flex: 1,
                     fontWeight: 'bold',
-                    fontSize: '15px',
+                    fontSize: isMobile ? '10px' : '15px',
                     color: gender === value ? '#000000' : '#333',
                     borderRadius: '8px',
                     backgroundColor: gender === value ? '#FDFD53' : 'transparent',
@@ -713,7 +712,7 @@ export default function Page(): React.JSX.Element {
                   sx={{
                     flex: 1,
                     fontWeight: 'bold',
-                    fontSize: '15px',
+                    fontSize: isMobile ? '10px' : '15px',
                     color: activityLevel === value ? '#000000' : '#333',
                     borderRadius: '8px',
                     backgroundColor: activityLevel === value ? '#FDFD53' : 'transparent',
@@ -761,7 +760,7 @@ export default function Page(): React.JSX.Element {
                   sx={{
                     flex: 1,
                     fontWeight: 'bold',
-                    fontSize: '15px',
+                    fontSize: isMobile ? '10px' : '15px',
                     color: trainingHistory === value ? '#000000' : '#333',
                     borderRadius: '8px',
                     backgroundColor: trainingHistory === value ? '#FDFD53' : 'transparent',
@@ -809,7 +808,7 @@ export default function Page(): React.JSX.Element {
                   sx={{
                     flex: 1,
                     fontWeight: 'bold',
-                    fontSize: '15px',
+                    fontSize: isMobile ? '10px' : '15px',
                     color: workoutsPerWeek === value ? '#000000' : '#333',
                     borderRadius: '8px',
                     backgroundColor: workoutsPerWeek === value ? '#FDFD53' : 'transparent',
@@ -840,7 +839,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 6,
-                    xs: 12,
+                    xs: 6,
                   }}
                   key={goal.key}
                 >
@@ -856,11 +855,12 @@ export default function Page(): React.JSX.Element {
                         border: trainingGoal === goal.key ? '2px solid #FDFD53' : '1px solid #E3E3E3',
                         transition: 'all 0.3s ease',
                         boxShadow: trainingGoal === goal.key ? '0px 4px 15px rgba(253, 253, 83, 0.5)' : 'none',
+                        height: isMobile ? '80px' : 'auto',
                       }}
                     >
                       <Box display="flex" alignItems="center" justifyContent="space-between">
-                        <Box>
-                          <Typography variant="h6" fontWeight="bold" color="#000000">
+                        <Box textAlign="center">
+                          <Typography variant={!isMobile ? 'h6' : 'body2'} fontWeight="bold" color="#000000">
                             {goal.label}
                           </Typography>
                         </Box>
@@ -883,7 +883,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 6,
-                    xs: 12,
+                    xs: 6,
                   }}
                   key={style.key}
                 >
@@ -897,7 +897,7 @@ export default function Page(): React.JSX.Element {
                         boxShadow: selectedStyle === style.key ? '0px 4px 15px rgba(0,0,0,0.2)' : 'none',
                         cursor: 'pointer',
                         transition: 'all 0.3s ease-in-out',
-                        height: '150px',
+                        height: isMobile ? '50px' : '150px',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'space-between',
@@ -905,23 +905,22 @@ export default function Page(): React.JSX.Element {
                       }}
                     >
                       <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography variant="h6" fontWeight="bold" color="#000000">
+                        <Typography variant={!isMobile ? 'h6' : 'body2'} fontWeight="bold" color="#000000">
                           {style.name}
                         </Typography>
-                        {/* <Typography variant="body2" color="#000000">
-                            {style.description}
-                          </Typography> */}
-                        <Box mt={1}>
-                          <Typography variant="body2" color="#000000">
-                            <b>Protein:</b> {style.protein}
-                          </Typography>
-                          <Typography variant="body2" color="#000000">
-                            <b>Fats:</b> {style.fats}
-                          </Typography>
-                          <Typography variant="body2" color="#000000">
-                            <b>Carbs:</b> {style.carbs}
-                          </Typography>
-                        </Box>
+                        {!isMobile ? (
+                          <Box mt={1}>
+                            <Typography variant="body2" color="#000000">
+                              <b>Protein:</b> {style.protein}
+                            </Typography>
+                            <Typography variant="body2" color="#000000">
+                              <b>Fats:</b> {style.fats}
+                            </Typography>
+                            <Typography variant="body2" color="#000000">
+                              <b>Carbs:</b> {style.carbs}
+                            </Typography>
+                          </Box>
+                        ) : null}
                       </CardContent>
                     </Card>
                   </motion.div>
@@ -938,7 +937,11 @@ export default function Page(): React.JSX.Element {
                   Additional Options
                 </Typography>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mt={2}>
-                  <Typography color="#000000">Training Day & Rest Day Calorie Cycling</Typography>
+                  {isMobile ? (
+                    <Typography color="#000000">Calorie Cycling</Typography>
+                  ) : (
+                    <Typography color="#000000">Training Day & Rest Day Calorie Cycling</Typography>
+                  )}
                   <Switch
                     checked={calorieCycling}
                     onChange={(e) => {
@@ -955,7 +958,11 @@ export default function Page(): React.JSX.Element {
                   />
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="space-between" mt={2}>
-                  <Typography color="#000000">Calorie Banking (Mon-Fri Lower, Sat-Sun Higher)</Typography>
+                  {isMobile ? (
+                    <Typography color="#000000">Calorie Banking</Typography>
+                  ) : (
+                    <Typography color="#000000">Calorie Banking (Mon-Fri Lower, Sat-Sun Higher)</Typography>
+                  )}
                   <Switch
                     checked={calorieBanking}
                     onChange={(e) => {
@@ -1002,7 +1009,7 @@ export default function Page(): React.JSX.Element {
                 sx={{
                   width: '50%',
                   fontWeight: 'bold',
-                  fontSize: '15px',
+                  fontSize: isMobile ? '10px' : '15px',
                   transition: 'background-color 0.3s ease-in-out',
                   '&.Mui-selected': {
                     backgroundColor: '#FDFD53',
@@ -1023,7 +1030,7 @@ export default function Page(): React.JSX.Element {
                 sx={{
                   width: '50%',
                   fontWeight: 'bold',
-                  fontSize: '15px',
+                  fontSize: isMobile ? '10px' : '15px',
                   transition: 'background-color 0.3s ease-in-out',
                   '&.Mui-selected': {
                     backgroundColor: '#FDFD53',
@@ -1048,7 +1055,7 @@ export default function Page(): React.JSX.Element {
                   <Grid
                     size={{
                       md: 6,
-                      xs: 12,
+                      xs: 6,
                     }}
                     key={value}
                   >
@@ -1067,10 +1074,12 @@ export default function Page(): React.JSX.Element {
                           boxShadow: selected === kcal ? `0px 4px 15px ${color}` : 'none',
                         }}
                       >
-                        <Typography variant="h6" fontWeight="bold" color="#000000">
-                          {label}
-                        </Typography>
-                        <Typography variant="body2" color="#000000">
+                        {!isMobile ? (
+                          <Typography variant="h6" color="#000000">
+                            {label}
+                          </Typography>
+                        ) : null}
+                        <Typography variant="body2" fontWeight="bold" color="#000000">
                           {kcal}
                         </Typography>
                       </Card>
@@ -1124,7 +1133,7 @@ export default function Page(): React.JSX.Element {
           }}
         >
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h4">My Macro & Calorie</Typography>
+            <Typography variant={isMobile ? 'h5' : 'h4'}>My Macro & Calorie</Typography>
           </Box>
           {/* Placeholder for additional content */}
           <Grid container spacing={4}>
@@ -1194,7 +1203,7 @@ export default function Page(): React.JSX.Element {
             <Grid
               size={{
                 md: 6,
-                xs: 12,
+                xs: 6,
               }}
             >
               <Box>
@@ -1230,7 +1239,7 @@ export default function Page(): React.JSX.Element {
                     justifyContent: 'center',
                   }}
                 >
-                  <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                  <Box sx={{ textAlign: 'center', mt: '-175px', ml: isMobile ? '15px' : '0px' }}>
                     <Typography mt={2} color="#000000">
                       Total
                     </Typography>
@@ -1255,7 +1264,7 @@ export default function Page(): React.JSX.Element {
             <Grid
               size={{
                 md: 6,
-                xs: 12,
+                xs: 6,
               }}
             >
               <Box>
@@ -1291,7 +1300,7 @@ export default function Page(): React.JSX.Element {
                     justifyContent: 'center',
                   }}
                 >
-                  <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                  <Box sx={{ textAlign: 'center', mt: '-175px', ml: isMobile ? '25px' : '0px' }}>
                     <Typography mt={2} color="#000000">
                       Target
                     </Typography>
@@ -1319,7 +1328,7 @@ export default function Page(): React.JSX.Element {
               <Grid
                 size={{
                   md: 6,
-                  xs: 12,
+                  xs: 6,
                 }}
               >
                 <Box>
@@ -1355,7 +1364,7 @@ export default function Page(): React.JSX.Element {
                       justifyContent: 'center',
                     }}
                   >
-                    <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                    <Box sx={{ textAlign: 'center', mt: '-175px', ml: isMobile ? '15px' : '0px' }}>
                       <Typography mt={2} color="#000000">
                         Train
                       </Typography>
@@ -1380,7 +1389,7 @@ export default function Page(): React.JSX.Element {
               <Grid
                 size={{
                   md: 6,
-                  xs: 12,
+                  xs: 6,
                 }}
               >
                 <Box>
@@ -1416,7 +1425,7 @@ export default function Page(): React.JSX.Element {
                       justifyContent: 'center',
                     }}
                   >
-                    <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                    <Box sx={{ textAlign: 'center', mt: '-175px', ml: isMobile ? '15px' : '0px' }}>
                       <Typography mt={2} color="#000000">
                         Rest
                       </Typography>
@@ -1445,7 +1454,7 @@ export default function Page(): React.JSX.Element {
               <Grid
                 size={{
                   md: 6,
-                  xs: 12,
+                  xs: 6,
                 }}
               >
                 <Box>
@@ -1481,7 +1490,9 @@ export default function Page(): React.JSX.Element {
                       justifyContent: 'center',
                     }}
                   >
-                    <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                    <Box
+                      sx={{ textAlign: 'center', mt: !isMobile ? '-175px' : '-170px', ml: isMobile ? '15px' : '0px' }}
+                    >
                       <Typography variant="body2" mt={2} color="#000000">
                         Weekday
                       </Typography>
@@ -1506,7 +1517,7 @@ export default function Page(): React.JSX.Element {
               <Grid
                 size={{
                   md: 6,
-                  xs: 12,
+                  xs: 6,
                 }}
               >
                 <Box>
@@ -1542,7 +1553,9 @@ export default function Page(): React.JSX.Element {
                       justifyContent: 'center',
                     }}
                   >
-                    <Box sx={{ textAlign: 'center', mt: '-175px' }}>
+                    <Box
+                      sx={{ textAlign: 'center', mt: !isMobile ? '-175px' : '-170px', ml: isMobile ? '15px' : '0px' }}
+                    >
                       <Typography variant="body2" mt={2} color="#000000">
                         Weekend
                       </Typography>
@@ -1571,7 +1584,7 @@ export default function Page(): React.JSX.Element {
               <Grid
                 size={{
                   md: 3,
-                  xs: 12,
+                  xs: 6,
                 }}
               >
                 <Card
@@ -1605,7 +1618,7 @@ export default function Page(): React.JSX.Element {
               <Grid
                 size={{
                   md: 3,
-                  xs: 12,
+                  xs: 6,
                 }}
               >
                 <Card
@@ -1639,7 +1652,7 @@ export default function Page(): React.JSX.Element {
               <Grid
                 size={{
                   md: 3,
-                  xs: 12,
+                  xs: 6,
                 }}
               >
                 <Card
@@ -1673,7 +1686,7 @@ export default function Page(): React.JSX.Element {
               <Grid
                 size={{
                   md: 3,
-                  xs: 12,
+                  xs: 6,
                 }}
               >
                 <Card
@@ -1714,7 +1727,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -1748,7 +1761,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -1782,7 +1795,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -1816,7 +1829,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -1855,7 +1868,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -1889,7 +1902,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -1923,7 +1936,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -1957,7 +1970,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -1999,7 +2012,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2033,7 +2046,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2067,7 +2080,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2101,7 +2114,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2140,7 +2153,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2174,7 +2187,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2208,7 +2221,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2242,7 +2255,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2284,7 +2297,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2318,7 +2331,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2352,7 +2365,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2386,7 +2399,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2425,7 +2438,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2459,7 +2472,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2493,7 +2506,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2527,7 +2540,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2567,7 +2580,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2601,7 +2614,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2635,7 +2648,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2669,7 +2682,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2708,7 +2721,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2742,7 +2755,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2776,7 +2789,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card
@@ -2810,7 +2823,7 @@ export default function Page(): React.JSX.Element {
                 <Grid
                   size={{
                     md: 3,
-                    xs: 12,
+                    xs: 6,
                   }}
                 >
                   <Card

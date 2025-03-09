@@ -24,31 +24,17 @@ const navItems = [
   {
     key: 'group-0',
     items: [
-      { key: 'home', title: 'Home', href: paths.home },
-      { key: 'components', title: 'Components', href: paths.components.index },
+      { key: 'Calculator', title: 'Calculator', href: paths.dashboard.overview },
       {
-        key: 'dashboard',
-        title: 'Dashboard',
-        items: [
-          { key: 'overview', title: 'Overview', href: paths.dashboard.overview },
-          { key: 'analytics', title: 'Customers', href: paths.dashboard.customers.list },
-          { key: 'logistics', title: 'Logistics', href: paths.dashboard.logistics.metrics },
-          { key: 'settings', title: 'Settings', href: paths.dashboard.settings.account },
-          { key: 'file-storage', title: 'File storage', href: paths.dashboard.fileStorage },
-        ],
+        key: 'Smart Adjustments',
+        title: 'Smart Adjustments',
+        href: paths.dashboard.analytics,
       },
       {
-        key: 'marketing',
-        title: 'Marketing',
-        items: [
-          { key: 'blog', title: 'Blog', href: paths.dashboard.blog.list },
-          { key: 'pricing', title: 'Pricing', href: paths.pricing },
-          { key: 'contact', title: 'Contact', href: paths.contact },
-          { key: 'checkout', title: 'Checkout', href: paths.checkout },
-          { key: 'error', title: 'Error', href: paths.notFound },
-        ],
+        key: 'Progress Tracking Chart',
+        title: 'Tracking Chart',
+        href: paths.dashboard.eCommerce,
       },
-      { key: 'docs', title: 'Docs', href: paths.docs, external: true },
     ],
   },
 ] satisfies NavItemConfig[];
@@ -94,8 +80,11 @@ export function MobileNav({ onClose, open = false }: MobileNavProps): React.JSX.
       <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, minHeight: 0 }}>
         <Stack direction="row" spacing={3} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <Box component={RouterLink} href={paths.home} sx={{ display: 'inline-flex' }}>
-            <DynamicLogo colorDark="light" colorLight="dark" height={32} width={122} />
+            <DynamicLogo colorDark="light" colorLight="dark" height={50} width={50} />
           </Box>
+          <Typography variant="h5" fontWeight="bold" fontFamily="'Mollen Personal Use', sans-serif" color="#000000">
+            MacroFlow
+          </Typography>
           <IconButton onClick={onClose}>
             <XIcon />
           </IconButton>

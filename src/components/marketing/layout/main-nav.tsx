@@ -123,7 +123,6 @@ export function MainNav(): React.JSX.Element {
                   color: '#FFFFFF',
                   borderRadius: '20px', // Increased border radius
                   fontSize: '1.1rem', // Slightly larger font size
-                  '&:hover': { backgroundColor: '#B01129' }, // Slightly darker shade on hover
                 }}
               >
                 Sign Out
@@ -149,7 +148,7 @@ export function MainNav(): React.JSX.Element {
               onClick={() => {
                 setOpenNav(true);
               }}
-              sx={{ color: 'var(--mui-palette-common-white)', display: { xs: 'flex', md: 'none' } }}
+              sx={{ display: { xs: 'flex', md: 'none' } }}
             >
               <ListIcon />
             </IconButton>

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import RouterLink from 'next/link';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -38,6 +39,8 @@ const courses = [
 ] satisfies Course[];
 
 export function Hero(): React.JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <Box
       sx={{
@@ -84,7 +87,13 @@ export function Hero(): React.JSX.Element {
       <Container maxWidth="md" sx={{ position: 'relative', py: '50px', zIndex: 3 }}>
         <Stack spacing={4}>
           <Stack spacing={2}>
-            <Typography sx={{ fontSize: '3.5rem', fontWeight: 600, lineHeight: 1.2, textAlign: 'center' }}>
+            <Typography
+              sx={
+                isMobile
+                  ? { fontSize: '2rem', fontWeight: 600, lineHeight: 1.2, textAlign: 'center' }
+                  : { fontSize: '3.5rem', fontWeight: 600, lineHeight: 1.2, textAlign: 'center' }
+              }
+            >
               Your Personal Macro Calculator
             </Typography>
             <Typography sx={{ fontWeight: 400, textAlign: 'center' }} variant="h5">
@@ -133,7 +142,13 @@ export function Hero(): React.JSX.Element {
         }}
       >
         <Stack spacing={2} sx={{ justifyContent: 'center' }}>
-          <Typography sx={{ fontSize: '2.0rem', fontWeight: 600, lineHeight: 1.2, textAlign: 'center' }}>
+          <Typography
+            sx={
+              isMobile
+                ? { fontSize: '1.5rem', fontWeight: 600, lineHeight: 1.2, textAlign: 'center' }
+                : { fontSize: '2.0rem', fontWeight: 600, lineHeight: 1.2, textAlign: 'center' }
+            }
+          >
             Ready to Start Your Journey?
           </Typography>
           <Typography sx={{ fontSize: '1.2rem', color: '#333', marginTop: '10px', zIndex: 1, textAlign: 'center' }}>

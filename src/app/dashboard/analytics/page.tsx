@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { keyframes } from '@emotion/react';
-import { Button, CircularProgress, Modal, TextField } from '@mui/material';
+import { Button, CircularProgress, Modal, TextField, useMediaQuery, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid2';
@@ -26,6 +26,8 @@ const fadeIn = keyframes`
 `;
 
 export default function Page(): React.JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const userContext = React.useContext(UserContext);
   const [Bmr, setBmr] = React.useState<number | null>(null);
   const [TotalCalorie, setTotalCalorie] = React.useState<number | null>(null);
@@ -425,69 +427,128 @@ export default function Page(): React.JSX.Element {
         m: 'var(--Content-margin)',
         p: 'var(--Content-padding)',
         width: 'var(--Content-width)',
-        mt: -3,
+        mt: !isMobile ? -3 : 0,
       }}
     >
       <Stack spacing={4}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} sx={{ alignItems: 'flex-start' }}>
           <Box sx={{ flex: '1 1 auto' }}>
-            <Typography variant="h4">Weekly Weight Tracking & Auto-Adjustments</Typography>
+            <Typography variant={!isMobile ? 'h4' : 'h5'}>Weekly Weight Tracking & Auto-Adjustments</Typography>
           </Box>
         </Stack>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Typography variant="body2" color="text.secondary" sx={{ color: '#000000' }}>
-            Last updated:{' '}
-            <span style={{ color: '#D51331', fontWeight: '700' }}>
-              {getExactDate(String(lastUpdated)) === 'undefined-undefined-null'
-                ? ''
-                : getExactDate(String(lastUpdated))}
-            </span>
-          </Typography>
-          {/* Label (Typography) */}
-          <Typography variant="body2">Current Weight (kg):</Typography>
+        {!isMobile ? (
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <Typography variant="body2" color="text.secondary" sx={{ color: '#000000' }}>
+              Last updated:{' '}
+              <span style={{ color: '#D51331', fontWeight: '700' }}>
+                {getExactDate(String(lastUpdated)) === 'undefined-undefined-null'
+                  ? ''
+                  : getExactDate(String(lastUpdated))}
+              </span>
+            </Typography>
+            {/* Label (Typography) */}
+            <Typography variant="body2">Current Weight (kg):</Typography>
 
-          {/* Input (TextField) */}
-          <TextField
-            type="number"
-            value={currentWeight || ''}
-            onChange={(e) => {
-              setCurrentWeight(parseFloat(e.target.value));
-            }}
-            sx={{
-              width: '100px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#E3E3E3', // Light gray border
+            {/* Input (TextField) */}
+            <TextField
+              type="number"
+              value={currentWeight || ''}
+              onChange={(e) => {
+                setCurrentWeight(parseFloat(e.target.value));
+              }}
+              sx={{
+                width: '100px',
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: '#E3E3E3', // Light gray border
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#FDFA53', // Accent color on hover
+                  },
                 },
-                '&:hover fieldset': {
-                  borderColor: '#FDFA53', // Accent color on hover
-                },
-              },
-            }}
-          />
+              }}
+            />
 
-          {/* Button */}
-          <Button
-            onClick={handleRecalculate}
-            disabled={!currentWeight}
-            sx={{
-              width: '100px',
-              bgcolor: '#FDFA53', // Use accent color
-              color: 'black', // Black text
-              fontWeight: '600',
-              fontFamily: 'Poppins, sans-serif',
-              border: '2px solid black', // Add a border
-              '&:hover': {
-                bgcolor: '#E3E3E3', // Light gray on hover
-                transform: 'scale(1.05)', // Slight scale effect on hover
-                border: '2px solid #FDFA53', // Change border color on hover
-              },
-              transition: 'all 0.2s ease-in-out', // Smooth transition
-            }}
-          >
-            Submit
-          </Button>
-        </Stack>
+            {/* Button */}
+            <Button
+              onClick={handleRecalculate}
+              disabled={!currentWeight}
+              sx={{
+                width: '100px',
+                bgcolor: '#FDFA53', // Use accent color
+                color: 'black', // Black text
+                fontWeight: '600',
+                fontFamily: 'Poppins, sans-serif',
+                border: '2px solid black', // Add a border
+                '&:hover': {
+                  bgcolor: '#E3E3E3', // Light gray on hover
+                  transform: 'scale(1.05)', // Slight scale effect on hover
+                  border: '2px solid #FDFA53', // Change border color on hover
+                },
+                transition: 'all 0.2s ease-in-out', // Smooth transition
+              }}
+            >
+              Submit
+            </Button>
+          </Stack>
+        ) : (
+          <>
+            <Typography variant="body2" color="text.secondary" sx={{ color: '#000000' }}>
+              Last updated:{' '}
+              <span style={{ color: '#D51331', fontWeight: '700' }}>
+                {getExactDate(String(lastUpdated)) === 'undefined-undefined-null'
+                  ? ''
+                  : getExactDate(String(lastUpdated))}
+              </span>
+            </Typography>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              {/* Label (Typography) */}
+              <Typography variant="body2">Weight (kg):</Typography>
+
+              {/* Input (TextField) */}
+              <TextField
+                type="number"
+                value={currentWeight || ''}
+                onChange={(e) => {
+                  setCurrentWeight(parseFloat(e.target.value));
+                }}
+                sx={{
+                  width: '100px',
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: '#E3E3E3', // Light gray border
+                    },
+                    '&:hover fieldset': {
+                      borderColor: '#FDFA53', // Accent color on hover
+                    },
+                  },
+                }}
+              />
+
+              {/* Button */}
+              <Button
+                onClick={handleRecalculate}
+                disabled={!currentWeight}
+                sx={{
+                  width: '100px',
+                  bgcolor: '#FDFA53', // Use accent color
+                  color: 'black', // Black text
+                  fontWeight: '600',
+                  fontFamily: 'Poppins, sans-serif',
+                  border: '2px solid black', // Add a border
+                  '&:hover': {
+                    bgcolor: '#E3E3E3', // Light gray on hover
+                    transform: 'scale(1.05)', // Slight scale effect on hover
+                    border: '2px solid #FDFA53', // Change border color on hover
+                  },
+                  transition: 'all 0.2s ease-in-out', // Smooth transition
+                }}
+              >
+                Submit
+              </Button>
+            </Stack>
+          </>
+        )}
         <Grid container spacing={4}>
           <Grid size={12}>
             <Box
@@ -496,13 +557,13 @@ export default function Page(): React.JSX.Element {
                 gap: 3,
                 gridTemplateColumns: (() => {
                   if (!trainingDayCalories && !weekdayCalories) {
-                    return { xs: '1fr', sm: '1fr 1fr', xl: '1fr 1fr 1fr' };
+                    return { xs: '1fr 1fr', sm: '1fr 1fr', xl: '1fr 1fr 1fr' };
                   } else if (trainingDayCalories && !weekdayCalories) {
-                    return { xs: '1fr', sm: '1fr 1fr', xl: '1fr 1fr 1fr 1fr 1fr' };
+                    return { xs: '1fr 1fr', sm: '1fr 1fr', xl: '1fr 1fr 1fr 1fr 1fr' };
                   } else if (!trainingDayCalories && weekdayCalories) {
-                    return { xs: '1fr', sm: '1fr 1fr', xl: '1fr 1fr 1fr 1fr 1fr' };
+                    return { xs: '1fr 1fr', sm: '1fr 1fr', xl: '1fr 1fr 1fr 1fr 1fr' };
                   } else if (trainingDayCalories && weekdayCalories) {
-                    return { xs: '1fr', sm: '1fr 1fr', xl: '1fr 1fr 1fr 1fr 1fr 1fr 1fr' };
+                    return { xs: '1fr 1fr', sm: '1fr 1fr', xl: '1fr 1fr 1fr 1fr 1fr 1fr 1fr' };
                   }
                 })(),
               }}
@@ -678,7 +739,7 @@ export default function Page(): React.JSX.Element {
                   sx={{
                     display: 'grid',
                     gap: 2,
-                    gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                    gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                     p: 3,
                   }}
                 >
@@ -903,7 +964,7 @@ export default function Page(): React.JSX.Element {
                       sx={{
                         display: 'grid',
                         gap: 2,
-                        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                        gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                         p: 3,
                       }}
                     >
@@ -1141,7 +1202,7 @@ export default function Page(): React.JSX.Element {
                       sx={{
                         display: 'grid',
                         gap: 2,
-                        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                        gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                         p: 3,
                       }}
                     >
@@ -1392,7 +1453,7 @@ export default function Page(): React.JSX.Element {
                       sx={{
                         display: 'grid',
                         gap: 2,
-                        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                        gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                         p: 3,
                       }}
                     >
@@ -1630,7 +1691,7 @@ export default function Page(): React.JSX.Element {
                       sx={{
                         display: 'grid',
                         gap: 2,
-                        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                        gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                         p: 3,
                       }}
                     >
@@ -1882,7 +1943,7 @@ export default function Page(): React.JSX.Element {
                         sx={{
                           display: 'grid',
                           gap: 2,
-                          gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                          gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                           p: 3,
                         }}
                       >
@@ -2120,7 +2181,7 @@ export default function Page(): React.JSX.Element {
                         sx={{
                           display: 'grid',
                           gap: 2,
-                          gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                          gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                           p: 3,
                         }}
                       >
@@ -2370,7 +2431,7 @@ export default function Page(): React.JSX.Element {
                         sx={{
                           display: 'grid',
                           gap: 2,
-                          gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                          gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                           p: 3,
                         }}
                       >
@@ -2608,7 +2669,7 @@ export default function Page(): React.JSX.Element {
                         sx={{
                           display: 'grid',
                           gap: 2,
-                          gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                          gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
                           p: 3,
                         }}
                       >

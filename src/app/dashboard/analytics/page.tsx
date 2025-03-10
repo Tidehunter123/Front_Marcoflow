@@ -1901,7 +1901,7 @@ export default function Page(): React.JSX.Element {
               </Grid>
             </>
           ) : trainingDayCalories && weekdayCalories ? (
-            <Box>
+            <>
               <Grid size={isMobile ? 12 : 6} mt={1}>
                 <Typography variant="body2" mb={1}>
                   - TrainingDay Macros
@@ -2378,6 +2378,7 @@ export default function Page(): React.JSX.Element {
                   </Box>
                 </Card>
               </Grid>
+
               <Grid size={isMobile ? 12 : 6} mt={1}>
                 <Typography variant="body2" mb={1}>
                   - Weekday Macros
@@ -2854,7 +2855,7 @@ export default function Page(): React.JSX.Element {
                   </Box>
                 </Card>
               </Grid>
-            </Box>
+            </>
           ) : null}
         </Grid>
       </Stack>

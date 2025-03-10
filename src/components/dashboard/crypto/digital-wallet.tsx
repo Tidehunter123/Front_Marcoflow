@@ -17,13 +17,13 @@ import { NoSsr } from '@/components/core/no-ssr';
 export type Type = 'BMR' | 'Total' | 'Target' | 'TrainingDay' | 'RestDay' | 'Weekday' | 'Weekend';
 
 const fitnessIcons: Record<Type, string> = {
-  BMR: '/assets/fibre.gif', // Example: An icon representing basal metabolic rate
-  Total: '/assets/calories.gif', // Example: An icon representing daily calorie needs
-  Target: '/assets/calories.gif', // Example: An icon representing goal-specific calories
-  TrainingDay: '/assets/calories.gif', // Example: An icon representing basal metabolic rate
-  RestDay: '/assets/calories.gif', // Example: An icon representing daily calorie needs
-  Weekday: '/assets/calories.gif', // Example: An icon representing goal-specific calories
-  Weekend: '/assets/calories.gif',
+  BMR: '/assets/fibre.png', // Example: An icon representing basal metabolic rate
+  Total: '/assets/calories.png', // Example: An icon representing daily calorie needs
+  Target: '/assets/calories.png', // Example: An icon representing goal-specific calories
+  TrainingDay: '/assets/calories.png', // Example: An icon representing basal metabolic rate
+  RestDay: '/assets/calories.png', // Example: An icon representing daily calorie needs
+  Weekday: '/assets/calories.png', // Example: An icon representing goal-specific calories
+  Weekend: '/assets/calories.png',
 };
 
 export interface DigitalWalletProps {

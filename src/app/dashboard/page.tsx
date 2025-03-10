@@ -1145,7 +1145,7 @@ export default function Page(): React.JSX.Element {
             >
               <Box>
                 <RadialBarChart
-                  barSize={24}
+                  barSize={12}
                   data={data}
                   endAngle={360} // Full circle
                   height={150} // Reduce height
@@ -1206,9 +1206,9 @@ export default function Page(): React.JSX.Element {
                 xs: 6,
               }}
             >
-              <Box>
+              <Box sx={{ position: 'relative', display: 'inline-block' }}>
                 <RadialBarChart
-                  barSize={24}
+                  barSize={12}
                   data={data}
                   endAngle={360} // Full circle
                   height={150} // Reduce height
@@ -1234,30 +1234,28 @@ export default function Page(): React.JSX.Element {
                 </RadialBarChart>
                 <Box
                   sx={{
-                    alignItems: 'center',
-                    display: 'flex',
-                    justifyContent: 'center',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)', // Center the content precisely
+                    textAlign: 'center',
                   }}
                 >
-                  <Box sx={{ textAlign: 'center', mt: '-175px', ml: isMobile ? '15px' : '0px' }}>
-                    <Typography mt={2} color="#000000">
-                      Total
-                    </Typography>
-                    {isCalculating ? (
-                      <Box sx={{ textAlign: 'center', mt: '10px' }}>
-                        <CircularProgress size={20} />
-                      </Box>
-                    ) : (
-                      <>
-                        <Typography fontWeight="bold" variant="h5" color="#000000">
-                          {totalCalorie === null ? '-' : totalCalorie?.toFixed(0)}
-                        </Typography>
-                        <Typography mt={-1} color="#000000">
-                          kcal
-                        </Typography>
-                      </>
-                    )}
-                  </Box>
+                  <Typography color="#000000">Total</Typography>
+                  {isCalculating ? (
+                    <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                      <CircularProgress size={20} />
+                    </Box>
+                  ) : (
+                    <>
+                      <Typography fontWeight="bold" variant="h5" color="#000000">
+                        {totalCalorie === null ? '-' : totalCalorie?.toFixed(0)}
+                      </Typography>
+                      <Typography mt={-1} color="#000000">
+                        kcal
+                      </Typography>
+                    </>
+                  )}
                 </Box>
               </Box>
             </Grid>
@@ -1267,9 +1265,9 @@ export default function Page(): React.JSX.Element {
                 xs: 6,
               }}
             >
-              <Box>
+              <Box sx={{ position: 'relative', display: 'inline-block' }}>
                 <RadialBarChart
-                  barSize={24}
+                  barSize={12}
                   data={data}
                   endAngle={360} // Full circle
                   height={150} // Reduce height
@@ -1295,30 +1293,28 @@ export default function Page(): React.JSX.Element {
                 </RadialBarChart>
                 <Box
                   sx={{
-                    alignItems: 'center',
-                    display: 'flex',
-                    justifyContent: 'center',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)', // Center the content precisely
+                    textAlign: 'center',
                   }}
                 >
-                  <Box sx={{ textAlign: 'center', mt: '-175px', ml: isMobile ? '25px' : '0px' }}>
-                    <Typography mt={2} color="#000000">
-                      Target
-                    </Typography>
-                    {isCalculating ? (
-                      <Box sx={{ textAlign: 'center', mt: '10px' }}>
-                        <CircularProgress size={20} />
-                      </Box>
-                    ) : (
-                      <>
-                        <Typography fontWeight="bold" variant="h5" color="#000000">
-                          {targetCalorie === null ? '-' : targetCalorie?.toFixed(0)}
-                        </Typography>
-                        <Typography mt={-1} color="#000000">
-                          kcal
-                        </Typography>
-                      </>
-                    )}
-                  </Box>
+                  <Typography color="#000000">Target</Typography>
+                  {isCalculating ? (
+                    <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                      <CircularProgress size={20} />
+                    </Box>
+                  ) : (
+                    <>
+                      <Typography fontWeight="bold" variant="h5" color="#000000">
+                        {targetCalorie === null ? '-' : targetCalorie?.toFixed(0)}
+                      </Typography>
+                      <Typography mt={-1} color="#000000">
+                        kcal
+                      </Typography>
+                    </>
+                  )}
                 </Box>
               </Box>
             </Grid>
@@ -1331,9 +1327,9 @@ export default function Page(): React.JSX.Element {
                   xs: 6,
                 }}
               >
-                <Box>
+                <Box sx={{ position: 'relative', display: 'inline-block' }}>
                   <RadialBarChart
-                    barSize={24}
+                    barSize={12}
                     data={data}
                     endAngle={360} // Full circle
                     height={150} // Reduce height
@@ -1359,30 +1355,28 @@ export default function Page(): React.JSX.Element {
                   </RadialBarChart>
                   <Box
                     sx={{
-                      alignItems: 'center',
-                      display: 'flex',
-                      justifyContent: 'center',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)', // Center the content precisely
+                      textAlign: 'center',
                     }}
                   >
-                    <Box sx={{ textAlign: 'center', mt: '-175px', ml: isMobile ? '15px' : '0px' }}>
-                      <Typography mt={2} color="#000000">
-                        Train
-                      </Typography>
-                      {isCalculating ? (
-                        <Box sx={{ textAlign: 'center', mt: '10px' }}>
-                          <CircularProgress size={20} />
-                        </Box>
-                      ) : (
-                        <>
-                          <Typography fontWeight="bold" variant="h5" color="#000000">
-                            {trainingDayCalories === null ? '-' : trainingDayCalories?.toFixed(0)}
-                          </Typography>
-                          <Typography mt={-1} color="#000000">
-                            kcal
-                          </Typography>
-                        </>
-                      )}
-                    </Box>
+                    <Typography color="#000000">Train</Typography>
+                    {isCalculating ? (
+                      <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                        <CircularProgress size={20} />
+                      </Box>
+                    ) : (
+                      <>
+                        <Typography fontWeight="bold" variant="h5" color="#000000">
+                          {trainingDayCalories === null ? '-' : trainingDayCalories?.toFixed(0)}
+                        </Typography>
+                        <Typography mt={-1} color="#000000">
+                          kcal
+                        </Typography>
+                      </>
+                    )}
                   </Box>
                 </Box>
               </Grid>
@@ -1392,9 +1386,9 @@ export default function Page(): React.JSX.Element {
                   xs: 6,
                 }}
               >
-                <Box>
+                <Box sx={{ position: 'relative', display: 'inline-block' }}>
                   <RadialBarChart
-                    barSize={24}
+                    barSize={12}
                     data={data}
                     endAngle={360} // Full circle
                     height={150} // Reduce height
@@ -1420,30 +1414,28 @@ export default function Page(): React.JSX.Element {
                   </RadialBarChart>
                   <Box
                     sx={{
-                      alignItems: 'center',
-                      display: 'flex',
-                      justifyContent: 'center',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)', // Center the content precisely
+                      textAlign: 'center',
                     }}
                   >
-                    <Box sx={{ textAlign: 'center', mt: '-175px', ml: isMobile ? '15px' : '0px' }}>
-                      <Typography mt={2} color="#000000">
-                        Rest
-                      </Typography>
-                      {isCalculating ? (
-                        <Box sx={{ textAlign: 'center', mt: '10px' }}>
-                          <CircularProgress size={20} />
-                        </Box>
-                      ) : (
-                        <>
-                          <Typography fontWeight="bold" variant="h5" color="#000000">
-                            {restDayCalories === null ? '-' : restDayCalories?.toFixed(0)}
-                          </Typography>
-                          <Typography mt={-1} color="#000000">
-                            kcal
-                          </Typography>
-                        </>
-                      )}
-                    </Box>
+                    <Typography color="#000000">Rest</Typography>
+                    {isCalculating ? (
+                      <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                        <CircularProgress size={20} />
+                      </Box>
+                    ) : (
+                      <>
+                        <Typography fontWeight="bold" variant="h5" color="#000000">
+                          {restDayCalories === null ? '-' : restDayCalories?.toFixed(0)}
+                        </Typography>
+                        <Typography mt={-1} color="#000000">
+                          kcal
+                        </Typography>
+                      </>
+                    )}
                   </Box>
                 </Box>
               </Grid>
@@ -1457,9 +1449,9 @@ export default function Page(): React.JSX.Element {
                   xs: 6,
                 }}
               >
-                <Box>
+                <Box sx={{ position: 'relative', display: 'inline-block' }}>
                   <RadialBarChart
-                    barSize={24}
+                    barSize={12}
                     data={data}
                     endAngle={360} // Full circle
                     height={150} // Reduce height
@@ -1485,32 +1477,30 @@ export default function Page(): React.JSX.Element {
                   </RadialBarChart>
                   <Box
                     sx={{
-                      alignItems: 'center',
-                      display: 'flex',
-                      justifyContent: 'center',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)', // Center the content precisely
+                      textAlign: 'center',
                     }}
                   >
-                    <Box
-                      sx={{ textAlign: 'center', mt: !isMobile ? '-175px' : '-170px', ml: isMobile ? '15px' : '0px' }}
-                    >
-                      <Typography variant="body2" mt={2} color="#000000">
-                        Weekday
-                      </Typography>
-                      {isCalculating ? (
-                        <Box sx={{ textAlign: 'center', mt: '10px' }}>
-                          <CircularProgress size={20} />
-                        </Box>
-                      ) : (
-                        <>
-                          <Typography fontWeight="bold" variant="h5" color="#000000">
-                            {weekdayCalories === null ? '-' : weekdayCalories?.toFixed(0)}
-                          </Typography>
-                          <Typography mt={-1} color="#000000">
-                            kcal
-                          </Typography>
-                        </>
-                      )}
-                    </Box>
+                    <Typography variant="body2" color="#000000">
+                      Weekday
+                    </Typography>
+                    {isCalculating ? (
+                      <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                        <CircularProgress size={20} />
+                      </Box>
+                    ) : (
+                      <>
+                        <Typography fontWeight="bold" variant="h5" color="#000000">
+                          {weekdayCalories === null ? '-' : weekdayCalories?.toFixed(0)}
+                        </Typography>
+                        <Typography mt={-1} color="#000000">
+                          kcal
+                        </Typography>
+                      </>
+                    )}
                   </Box>
                 </Box>
               </Grid>
@@ -1520,9 +1510,9 @@ export default function Page(): React.JSX.Element {
                   xs: 6,
                 }}
               >
-                <Box>
+                <Box sx={{ position: 'relative', display: 'inline-block' }}>
                   <RadialBarChart
-                    barSize={24}
+                    barSize={12}
                     data={data}
                     endAngle={360} // Full circle
                     height={150} // Reduce height
@@ -1548,32 +1538,30 @@ export default function Page(): React.JSX.Element {
                   </RadialBarChart>
                   <Box
                     sx={{
-                      alignItems: 'center',
-                      display: 'flex',
-                      justifyContent: 'center',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)', // Center the content precisely
+                      textAlign: 'center',
                     }}
                   >
-                    <Box
-                      sx={{ textAlign: 'center', mt: !isMobile ? '-175px' : '-170px', ml: isMobile ? '15px' : '0px' }}
-                    >
-                      <Typography variant="body2" mt={2} color="#000000">
-                        Weekend
-                      </Typography>
-                      {isCalculating ? (
-                        <Box sx={{ textAlign: 'center', mt: '10px' }}>
-                          <CircularProgress size={20} />
-                        </Box>
-                      ) : (
-                        <>
-                          <Typography fontWeight="bold" variant="h5" color="#000000">
-                            {weekendCalories === null ? '-' : weekendCalories?.toFixed(0)}
-                          </Typography>
-                          <Typography mt={-1} color="#000000">
-                            kcal
-                          </Typography>
-                        </>
-                      )}
-                    </Box>
+                    <Typography variant="body2" color="#000000">
+                      Weekend
+                    </Typography>
+                    {isCalculating ? (
+                      <Box sx={{ textAlign: 'center', mt: '10px' }}>
+                        <CircularProgress size={20} />
+                      </Box>
+                    ) : (
+                      <>
+                        <Typography fontWeight="bold" variant="h5" color="#000000">
+                          {weekendCalories === null ? '-' : weekendCalories?.toFixed(0)}
+                        </Typography>
+                        <Typography mt={-1} color="#000000">
+                          kcal
+                        </Typography>
+                      </>
+                    )}
                   </Box>
                 </Box>
               </Grid>
@@ -1592,7 +1580,7 @@ export default function Page(): React.JSX.Element {
                     textAlign: 'center',
                     borderRadius: 3,
                     boxShadow: 2,
-                    width: 140,
+                    width: isMobile ? 'auto' : 140,
                     height: 120,
                   }}
                 >
@@ -1610,7 +1598,7 @@ export default function Page(): React.JSX.Element {
                       Protein
                     </Typography>
                     <Box sx={{ textAlign: 'center' }}>
-                      <img src="/assets/protein.gif" alt="Loading..." width={40} />
+                      <img src="/assets/protein.png" alt="Loading..." width={40} />
                     </Box>
                   </CardContent>
                 </Card>
@@ -1626,7 +1614,7 @@ export default function Page(): React.JSX.Element {
                     textAlign: 'center',
                     borderRadius: 3,
                     boxShadow: 2,
-                    width: 140,
+                    width: isMobile ? 'auto' : 140,
                     height: 120,
                   }}
                 >
@@ -1644,7 +1632,7 @@ export default function Page(): React.JSX.Element {
                       Fats
                     </Typography>
                     <Box sx={{ textAlign: 'center' }}>
-                      <img src="/assets/fat.gif" alt="Loading..." width={40} />
+                      <img src="/assets/fat.png" alt="Loading..." width={40} />
                     </Box>
                   </CardContent>
                 </Card>
@@ -1660,7 +1648,7 @@ export default function Page(): React.JSX.Element {
                     textAlign: 'center',
                     borderRadius: 3,
                     boxShadow: 2,
-                    width: 140,
+                    width: isMobile ? 'auto' : 140,
                     height: 120,
                   }}
                 >
@@ -1678,7 +1666,7 @@ export default function Page(): React.JSX.Element {
                       Carbohydrates
                     </Typography>
                     <Box sx={{ textAlign: 'center' }}>
-                      <img src="/assets/carbos.gif" alt="Loading..." width={40} />
+                      <img src="/assets/carbos.png" alt="Loading..." width={40} />
                     </Box>
                   </CardContent>
                 </Card>
@@ -1694,7 +1682,7 @@ export default function Page(): React.JSX.Element {
                     textAlign: 'center',
                     borderRadius: 3,
                     boxShadow: 2,
-                    width: 140,
+                    width: isMobile ? 'auto' : 140,
                     height: 120,
                   }}
                 >
@@ -1712,7 +1700,7 @@ export default function Page(): React.JSX.Element {
                       Fibre
                     </Typography>
                     <Box sx={{ textAlign: 'center' }}>
-                      <img src="/assets/fibre.gif" alt="Loading..." width={40} />
+                      <img src="/assets/fibre.png" alt="Loading..." width={40} />
                     </Box>
                   </CardContent>
                 </Card>
@@ -1735,7 +1723,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -1753,7 +1741,7 @@ export default function Page(): React.JSX.Element {
                         Protein
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/protein.gif" alt="Loading..." width={40} />
+                        <img src="/assets/protein.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -1769,7 +1757,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -1787,7 +1775,7 @@ export default function Page(): React.JSX.Element {
                         Fats
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fat.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fat.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -1804,7 +1792,7 @@ export default function Page(): React.JSX.Element {
                       borderRadius: 3,
                       boxShadow: 2,
                       height: 120,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                     }}
                   >
                     <CardContent>
@@ -1821,7 +1809,7 @@ export default function Page(): React.JSX.Element {
                         Carbohydrates
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/carbos.gif" alt="Loading..." width={40} />
+                        <img src="/assets/carbos.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -1837,7 +1825,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -1855,7 +1843,7 @@ export default function Page(): React.JSX.Element {
                         Fibre
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fibre.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fibre.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -1876,7 +1864,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -1894,7 +1882,7 @@ export default function Page(): React.JSX.Element {
                         Protein
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/protein.gif" alt="Loading..." width={40} />
+                        <img src="/assets/protein.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -1910,7 +1898,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -1928,7 +1916,7 @@ export default function Page(): React.JSX.Element {
                         Fats
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fat.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fat.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -1944,7 +1932,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -1962,7 +1950,7 @@ export default function Page(): React.JSX.Element {
                         Carbohydrates
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/carbos.gif" alt="Loading..." width={40} />
+                        <img src="/assets/carbos.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -1978,7 +1966,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -1996,7 +1984,7 @@ export default function Page(): React.JSX.Element {
                         Fibre
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fibre.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fibre.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2020,7 +2008,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2038,7 +2026,7 @@ export default function Page(): React.JSX.Element {
                         Protein
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/protein.gif" alt="Loading..." width={40} />
+                        <img src="/assets/protein.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2054,7 +2042,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2072,7 +2060,7 @@ export default function Page(): React.JSX.Element {
                         Fats
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fat.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fat.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2088,7 +2076,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2106,7 +2094,7 @@ export default function Page(): React.JSX.Element {
                         Carbohydrates
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/carbos.gif" alt="Loading..." width={40} />
+                        <img src="/assets/carbos.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2122,7 +2110,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2140,7 +2128,7 @@ export default function Page(): React.JSX.Element {
                         Fibre
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fibre.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fibre.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2161,7 +2149,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2179,7 +2167,7 @@ export default function Page(): React.JSX.Element {
                         Protein
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/protein.gif" alt="Loading..." width={40} />
+                        <img src="/assets/protein.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2195,7 +2183,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2213,7 +2201,7 @@ export default function Page(): React.JSX.Element {
                         Fats
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fat.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fat.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2229,7 +2217,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2247,7 +2235,7 @@ export default function Page(): React.JSX.Element {
                         Carbohydrates
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/carbos.gif" alt="Loading..." width={40} />
+                        <img src="/assets/carbos.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2263,7 +2251,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2281,7 +2269,7 @@ export default function Page(): React.JSX.Element {
                         Fibre
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fibre.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fibre.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2305,7 +2293,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2323,7 +2311,7 @@ export default function Page(): React.JSX.Element {
                         Protein
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/protein.gif" alt="Loading..." width={40} />
+                        <img src="/assets/protein.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2339,7 +2327,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2357,7 +2345,7 @@ export default function Page(): React.JSX.Element {
                         Fats
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fat.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fat.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2373,7 +2361,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2391,7 +2379,7 @@ export default function Page(): React.JSX.Element {
                         Carbohydrates
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/carbos.gif" alt="Loading..." width={40} />
+                        <img src="/assets/carbos.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2407,7 +2395,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2425,7 +2413,7 @@ export default function Page(): React.JSX.Element {
                         Fibre
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fibre.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fibre.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2446,7 +2434,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2464,7 +2452,7 @@ export default function Page(): React.JSX.Element {
                         Protein
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/protein.gif" alt="Loading..." width={40} />
+                        <img src="/assets/protein.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2480,7 +2468,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2498,7 +2486,7 @@ export default function Page(): React.JSX.Element {
                         Fats
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fat.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fat.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2514,7 +2502,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2532,7 +2520,7 @@ export default function Page(): React.JSX.Element {
                         Carbohydrates
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/carbos.gif" alt="Loading..." width={40} />
+                        <img src="/assets/carbos.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2548,7 +2536,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2566,7 +2554,7 @@ export default function Page(): React.JSX.Element {
                         Fibre
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fibre.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fibre.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2588,7 +2576,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2606,7 +2594,7 @@ export default function Page(): React.JSX.Element {
                         Protein
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/protein.gif" alt="Loading..." width={40} />
+                        <img src="/assets/protein.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2622,7 +2610,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2640,7 +2628,7 @@ export default function Page(): React.JSX.Element {
                         Fats
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fat.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fat.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2656,7 +2644,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2674,7 +2662,7 @@ export default function Page(): React.JSX.Element {
                         Carbohydrates
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/carbos.gif" alt="Loading..." width={40} />
+                        <img src="/assets/carbos.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2690,7 +2678,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2708,7 +2696,7 @@ export default function Page(): React.JSX.Element {
                         Fibre
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fibre.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fibre.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2729,7 +2717,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2747,7 +2735,7 @@ export default function Page(): React.JSX.Element {
                         Protein
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/protein.gif" alt="Loading..." width={40} />
+                        <img src="/assets/protein.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2763,7 +2751,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2781,7 +2769,7 @@ export default function Page(): React.JSX.Element {
                         Fats
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fat.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fat.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2797,7 +2785,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2815,7 +2803,7 @@ export default function Page(): React.JSX.Element {
                         Carbohydrates
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/carbos.gif" alt="Loading..." width={40} />
+                        <img src="/assets/carbos.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>
@@ -2831,7 +2819,7 @@ export default function Page(): React.JSX.Element {
                       textAlign: 'center',
                       borderRadius: 3,
                       boxShadow: 2,
-                      width: 140,
+                      width: isMobile ? 'auto' : 140,
                       height: 120,
                     }}
                   >
@@ -2849,7 +2837,7 @@ export default function Page(): React.JSX.Element {
                         Fibre
                       </Typography>
                       <Box sx={{ textAlign: 'center' }}>
-                        <img src="/assets/fibre.gif" alt="Loading..." width={40} />
+                        <img src="/assets/fibre.png" alt="Loading..." width={40} />
                       </Box>
                     </CardContent>
                   </Card>

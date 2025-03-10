@@ -249,8 +249,6 @@ export default function Page(): React.JSX.Element {
     // Convert milliseconds to days
     const differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
 
-    console.log(differenceInDays);
-
     return differenceInDays;
   };
 
@@ -945,1961 +943,1917 @@ export default function Page(): React.JSX.Element {
               </Card>
             </Grid>
           ) : trainingDayCalories && !weekendCalories ? (
-            <Box
-              sx={{
-                display: 'grid',
-                gap: 3,
-                gridTemplateColumns: {
-                  xs: '1fr',
-                  sm: '1fr',
-                  xl: '1fr 1fr',
-                },
-              }}
-            >
-              <Box>
-                <Typography variant="body2">- TrainingDay Macros</Typography>
-                <Grid size={12} mt={1}>
-                  <Card>
-                    <Box
+            <>
+              <Grid size={isMobile ? 12 : 6} mt={1}>
+                <Typography variant="body2" mb={1}>
+                  - TrainingDay Macros
+                </Typography>
+                <Card>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                      p: 3,
+                    }}
+                  >
+                    <Stack
+                      spacing={1}
                       sx={{
-                        display: 'grid',
-                        gap: 2,
-                        gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-                        p: 3,
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
                       }}
                     >
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Protein</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
+                      <Typography color="text.secondary">Protein</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {trainingDayProtein ? (
+                            <Typography variant="h3">{trainingDayProtein.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldTrainingDayProtein !== null && trainingDayProtein !== null ? (
                           <>
-                            {trainingDayProtein ? (
-                              <Typography variant="h3">{trainingDayProtein.toFixed(0)} g</Typography>
+                            {trainingDayProtein - oldTrainingDayProtein >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayProtein - oldTrainingDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
                             ) : (
-                              <Typography variant="h3">---</Typography>
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayProtein - oldTrainingDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
                             )}
                           </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldTrainingDayProtein !== null && trainingDayProtein !== null ? (
-                            <>
-                              {trainingDayProtein - oldTrainingDayProtein >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(trainingDayProtein - oldTrainingDayProtein).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(trainingDayProtein - oldTrainingDayProtein).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
+                        ) : null}
                       </Stack>
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Fats</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {trainingDayFats ? (
-                              <Typography variant="h3">{trainingDayFats.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldTrainingFats !== null && trainingDayFats !== null ? (
-                            <>
-                              {trainingDayFats - oldTrainingFats >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(trainingDayFats - oldTrainingFats).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(trainingDayFats - oldTrainingFats).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Cabohydrates</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {trainingDayCarbos ? (
-                              <Typography variant="h3">{trainingDayCarbos.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
-
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldTrainingDayCarbos !== null && trainingDayCarbos !== null ? (
-                            <>
-                              {trainingDayCarbos - oldTrainingDayCarbos >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(trainingDayCarbos - oldTrainingDayCarbos).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(trainingDayCarbos - oldTrainingDayCarbos).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                      <Stack spacing={1}>
-                        <Typography color="text.secondary">Fibre</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {trainingDayFibre ? (
-                              <Typography variant="h3">{trainingDayFibre.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldTrainingDayFibre !== null && trainingDayFibre !== null ? (
-                            <>
-                              {trainingDayFibre - oldTrainingDayFibre >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(trainingDayFibre - oldTrainingDayFibre).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(trainingDayFibre - oldTrainingDayFibre).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                    </Box>
-                  </Card>
-                </Grid>
-              </Box>
-              <Box>
-                <Typography variant="body2">- RestDay Macros</Typography>
-                <Grid size={12} mt={1}>
-                  <Card>
-                    <Box
+                    </Stack>
+                    <Stack
+                      spacing={1}
                       sx={{
-                        display: 'grid',
-                        gap: 2,
-                        gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-                        p: 3,
+                        borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
                       }}
                     >
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Protein</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
+                      <Typography color="text.secondary">Fats</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {trainingDayFats ? (
+                            <Typography variant="h3">{trainingDayFats.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldTrainingFats !== null && trainingDayFats !== null ? (
                           <>
-                            {restDayProtein ? (
-                              <Typography variant="h3">{restDayProtein.toFixed(0)} g</Typography>
+                            {trainingDayFats - oldTrainingFats >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayFats - oldTrainingFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
                             ) : (
-                              <Typography variant="h3">---</Typography>
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayFats - oldTrainingFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
                             )}
                           </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldRestDayProtein !== null && restDayProtein !== null ? (
-                            <>
-                              {restDayProtein - oldRestDayProtein >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(restDayProtein - oldRestDayProtein).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(restDayProtein - oldRestDayProtein).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
+                        ) : null}
                       </Stack>
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Fats</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {restDayFats ? (
-                              <Typography variant="h3">{restDayFats.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldRestDayFats !== null && restDayFats !== null ? (
-                            <>
-                              {restDayFats - oldRestDayFats >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(restDayFats - oldRestDayFats).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(restDayFats - oldRestDayFats).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Cabohydrates</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {restDayCarbos ? (
-                              <Typography variant="h3">{restDayCarbos.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Cabohydrates</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {trainingDayCarbos ? (
+                            <Typography variant="h3">{trainingDayCarbos.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
 
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldRestDayCarbos !== null && restDayCarbos !== null ? (
-                            <>
-                              {restDayCarbos - oldRestDayCarbos >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(restDayCarbos - oldRestDayCarbos).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(restDayCarbos - oldRestDayCarbos).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                      <Stack spacing={1}>
-                        <Typography color="text.secondary">Fibre</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldTrainingDayCarbos !== null && trainingDayCarbos !== null ? (
                           <>
-                            {restDayFibre ? (
-                              <Typography variant="h3">{restDayFibre.toFixed(0)} g</Typography>
+                            {trainingDayCarbos - oldTrainingDayCarbos >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayCarbos - oldTrainingDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
                             ) : (
-                              <Typography variant="h3">---</Typography>
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayCarbos - oldTrainingDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
                             )}
                           </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldRestDayFibre !== null && restDayFibre !== null ? (
-                            <>
-                              {restDayFibre - oldRestDayFibre >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(restDayFibre - oldRestDayFibre).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(restDayFibre - oldRestDayFibre).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
+                        ) : null}
                       </Stack>
-                    </Box>
-                  </Card>
-                </Grid>
-              </Box>
-            </Box>
+                    </Stack>
+                    <Stack spacing={1}>
+                      <Typography color="text.secondary">Fibre</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {trainingDayFibre ? (
+                            <Typography variant="h3">{trainingDayFibre.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldTrainingDayFibre !== null && trainingDayFibre !== null ? (
+                          <>
+                            {trainingDayFibre - oldTrainingDayFibre >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayFibre - oldTrainingDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayFibre - oldTrainingDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Card>
+              </Grid>
+              <Grid size={isMobile ? 12 : 6} mt={1}>
+                <Typography variant="body2" mb={1}>
+                  - RestDay Macros
+                </Typography>
+                <Card>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                      p: 3,
+                    }}
+                  >
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Protein</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {restDayProtein ? (
+                            <Typography variant="h3">{restDayProtein.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldRestDayProtein !== null && restDayProtein !== null ? (
+                          <>
+                            {restDayProtein - oldRestDayProtein >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayProtein - oldRestDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayProtein - oldRestDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Fats</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {restDayFats ? (
+                            <Typography variant="h3">{restDayFats.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldRestDayFats !== null && restDayFats !== null ? (
+                          <>
+                            {restDayFats - oldRestDayFats >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayFats - oldRestDayFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayFats - oldRestDayFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Cabohydrates</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {restDayCarbos ? (
+                            <Typography variant="h3">{restDayCarbos.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldRestDayCarbos !== null && restDayCarbos !== null ? (
+                          <>
+                            {restDayCarbos - oldRestDayCarbos >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayCarbos - oldRestDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayCarbos - oldRestDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack spacing={1}>
+                      <Typography color="text.secondary">Fibre</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {restDayFibre ? (
+                            <Typography variant="h3">{restDayFibre.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldRestDayFibre !== null && restDayFibre !== null ? (
+                          <>
+                            {restDayFibre - oldRestDayFibre >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayFibre - oldRestDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayFibre - oldRestDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Card>
+              </Grid>
+            </>
           ) : !trainingDayCalories && weekdayCalories ? (
-            <Box
-              sx={{
-                display: 'grid',
-                gap: 3,
-                gridTemplateColumns: {
-                  xs: '1fr',
-                  sm: '1fr',
-                  xl: '1fr 1fr',
-                },
-              }}
-            >
-              <Box>
-                <Typography variant="body2">- Weekday Macros</Typography>
-                <Grid size={12} mt={1}>
-                  <Card>
-                    <Box
+            <>
+              <Grid size={isMobile ? 12 : 6} mt={1}>
+                <Typography variant="body2" mb={1}>
+                  - Weekday Macros
+                </Typography>
+                <Card>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                      p: 3,
+                    }}
+                  >
+                    <Stack
+                      spacing={1}
                       sx={{
-                        display: 'grid',
-                        gap: 2,
-                        gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-                        p: 3,
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
                       }}
                     >
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Protein</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
+                      <Typography color="text.secondary">Protein</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekDayProtein ? (
+                            <Typography variant="h3">{weekDayProtein.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekDayProtein !== null && weekDayProtein !== null ? (
                           <>
-                            {weekDayProtein ? (
-                              <Typography variant="h3">{weekDayProtein.toFixed(0)} g</Typography>
+                            {weekDayProtein - oldWeekDayProtein >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayProtein - oldWeekDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
                             ) : (
-                              <Typography variant="h3">---</Typography>
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayProtein - oldWeekDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
                             )}
                           </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldWeekDayProtein !== null && weekDayProtein !== null ? (
-                            <>
-                              {weekDayProtein - oldWeekDayProtein >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekDayProtein - oldWeekDayProtein).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekDayProtein - oldWeekDayProtein).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
+                        ) : null}
                       </Stack>
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Fats</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {weekDayFats ? (
-                              <Typography variant="h3">{weekDayFats.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldWeekDayFats !== null && weekDayFats !== null ? (
-                            <>
-                              {weekDayFats - oldWeekDayFats >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekDayFats - oldWeekDayFats).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekDayFats - oldWeekDayFats).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Cabohydrates</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {weekDayCarbos ? (
-                              <Typography variant="h3">{weekDayCarbos.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
-
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldWeekDayCarbos !== null && weekDayCarbos !== null ? (
-                            <>
-                              {weekDayCarbos - oldWeekDayCarbos >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekDayCarbos - oldWeekDayCarbos).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekDayCarbos - oldWeekDayCarbos).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                      <Stack spacing={1}>
-                        <Typography color="text.secondary">Fibre</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {weekDayFibre ? (
-                              <Typography variant="h3">{weekDayFibre.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldWeekDayFibre !== null && weekDayFibre !== null ? (
-                            <>
-                              {weekDayFibre - oldWeekDayFibre >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekDayFibre - oldWeekDayFibre).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekDayFibre - oldWeekDayFibre).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                    </Box>
-                  </Card>
-                </Grid>
-              </Box>
-              <Box>
-                <Typography variant="body2">- Weekend Macros</Typography>
-                <Grid size={12} mt={1}>
-                  <Card>
-                    <Box
+                    </Stack>
+                    <Stack
+                      spacing={1}
                       sx={{
-                        display: 'grid',
-                        gap: 2,
-                        gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-                        p: 3,
+                        borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
                       }}
                     >
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Protein</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
+                      <Typography color="text.secondary">Fats</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekDayFats ? (
+                            <Typography variant="h3">{weekDayFats.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekDayFats !== null && weekDayFats !== null ? (
                           <>
-                            {weekendProtein ? (
-                              <Typography variant="h3">{weekendProtein.toFixed(0)} g</Typography>
+                            {weekDayFats - oldWeekDayFats >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayFats - oldWeekDayFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
                             ) : (
-                              <Typography variant="h3">---</Typography>
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayFats - oldWeekDayFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
                             )}
                           </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldWeekendProtein !== null && weekendProtein !== null ? (
-                            <>
-                              {weekendProtein - oldWeekendProtein >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekendProtein - oldWeekendProtein).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekendProtein - oldWeekendProtein).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
+                        ) : null}
                       </Stack>
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Fats</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {weekendFats ? (
-                              <Typography variant="h3">{weekendFats.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldWeekendFats !== null && weekendFats !== null ? (
-                            <>
-                              {weekendFats - oldWeekendFats >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekendFats - oldWeekendFats).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekendFats - oldWeekendFats).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                      <Stack
-                        spacing={1}
-                        sx={{
-                          borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                          borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                          pb: { xs: 2, md: 0 },
-                        }}
-                      >
-                        <Typography color="text.secondary">Cabohydrates</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
-                          <>
-                            {weekendCarbos ? (
-                              <Typography variant="h3">{weekendCarbos.toFixed(0)} g</Typography>
-                            ) : (
-                              <Typography variant="h3">---</Typography>
-                            )}
-                          </>
-                        )}
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Cabohydrates</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekDayCarbos ? (
+                            <Typography variant="h3">{weekDayCarbos.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
 
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldWeekendCarbos !== null && weekendCarbos !== null ? (
-                            <>
-                              {weekendCarbos - oldWeekendCarbos >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekendCarbos - oldWeekendCarbos).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekendCarbos - oldWeekendCarbos).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
-                      </Stack>
-                      <Stack spacing={1}>
-                        <Typography color="text.secondary">Fibre</Typography>
-                        {isCalculating ? (
-                          <Box>
-                            <CircularProgress size={40} />
-                          </Box>
-                        ) : (
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekDayCarbos !== null && weekDayCarbos !== null ? (
                           <>
-                            {weekendFibre ? (
-                              <Typography variant="h3">{weekendFibre.toFixed(0)} g</Typography>
+                            {weekDayCarbos - oldWeekDayCarbos >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayCarbos - oldWeekDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
                             ) : (
-                              <Typography variant="h3">---</Typography>
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayCarbos - oldWeekDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
                             )}
                           </>
-                        )}
-                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                          {oldWeekendFibre !== null && weekendFibre !== null ? (
-                            <>
-                              {weekendFibre - oldWeekendFibre >= 0 ? (
-                                <>
-                                  {' '}
-                                  <TrendUpIcon
-                                    color="var(--mui-palette-success-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="success.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekendFibre - oldWeekendFibre).toFixed(0)} g
-                                    </Typography>{' '}
-                                    increase
-                                  </Typography>
-                                </>
-                              ) : (
-                                <>
-                                  <TrendDownIcon
-                                    color="var(--mui-palette-error-main)"
-                                    fontSize="var(--icon-fontSize-md)"
-                                  />
-                                  <Typography color="text.secondary" variant="body2">
-                                    <Typography color="error.main" component="span" variant="subtitle2">
-                                      {Math.abs(weekendFibre - oldWeekendFibre).toFixed(0)} g
-                                    </Typography>{' '}
-                                    decrease
-                                  </Typography>
-                                </>
-                              )}
-                            </>
-                          ) : null}
-                        </Stack>
+                        ) : null}
                       </Stack>
-                    </Box>
-                  </Card>
-                </Grid>
-              </Box>
-            </Box>
+                    </Stack>
+                    <Stack spacing={1}>
+                      <Typography color="text.secondary">Fibre</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekDayFibre ? (
+                            <Typography variant="h3">{weekDayFibre.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekDayFibre !== null && weekDayFibre !== null ? (
+                          <>
+                            {weekDayFibre - oldWeekDayFibre >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayFibre - oldWeekDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayFibre - oldWeekDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Card>
+              </Grid>
+              <Grid size={isMobile ? 12 : 6} mt={1}>
+                <Typography variant="body2" mb={1}>
+                  - Weekend Macros
+                </Typography>
+                <Card>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                      p: 3,
+                    }}
+                  >
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Protein</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekendProtein ? (
+                            <Typography variant="h3">{weekendProtein.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekendProtein !== null && weekendProtein !== null ? (
+                          <>
+                            {weekendProtein - oldWeekendProtein >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendProtein - oldWeekendProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendProtein - oldWeekendProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Fats</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekendFats ? (
+                            <Typography variant="h3">{weekendFats.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekendFats !== null && weekendFats !== null ? (
+                          <>
+                            {weekendFats - oldWeekendFats >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendFats - oldWeekendFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendFats - oldWeekendFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Cabohydrates</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekendCarbos ? (
+                            <Typography variant="h3">{weekendCarbos.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekendCarbos !== null && weekendCarbos !== null ? (
+                          <>
+                            {weekendCarbos - oldWeekendCarbos >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendCarbos - oldWeekendCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendCarbos - oldWeekendCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack spacing={1}>
+                      <Typography color="text.secondary">Fibre</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekendFibre ? (
+                            <Typography variant="h3">{weekendFibre.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekendFibre !== null && weekendFibre !== null ? (
+                          <>
+                            {weekendFibre - oldWeekendFibre >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendFibre - oldWeekendFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendFibre - oldWeekendFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Card>
+              </Grid>
+            </>
           ) : trainingDayCalories && weekdayCalories ? (
             <Box>
-              <Box
-                sx={{
-                  display: 'grid',
-                  gap: 3,
-                  gridTemplateColumns: {
-                    xs: '1fr',
-                    sm: '1fr',
-                    xl: '1fr 1fr',
-                  },
-                }}
-              >
-                <Box>
-                  <Typography variant="body2">- TrainingDay Macros</Typography>
-                  <Grid size={12} mt={1}>
-                    <Card>
-                      <Box
-                        sx={{
-                          display: 'grid',
-                          gap: 2,
-                          gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-                          p: 3,
-                        }}
-                      >
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Protein</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
+              <Grid size={isMobile ? 12 : 6} mt={1}>
+                <Typography variant="body2" mb={1}>
+                  - TrainingDay Macros
+                </Typography>
+                <Card>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                      p: 3,
+                    }}
+                  >
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Protein</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {trainingDayProtein ? (
+                            <Typography variant="h3">{trainingDayProtein.toFixed(0)} g</Typography>
                           ) : (
-                            <>
-                              {trainingDayProtein ? (
-                                <Typography variant="h3">{trainingDayProtein.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
+                            <Typography variant="h3">---</Typography>
                           )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldTrainingDayProtein !== null && trainingDayProtein !== null ? (
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldTrainingDayProtein !== null && trainingDayProtein !== null ? (
+                          <>
+                            {trainingDayProtein - oldTrainingDayProtein >= 0 ? (
                               <>
-                                {trainingDayProtein - oldTrainingDayProtein >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(trainingDayProtein - oldTrainingDayProtein).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(trainingDayProtein - oldTrainingDayProtein).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayProtein - oldTrainingDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Fats</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
-                          ) : (
-                            <>
-                              {trainingDayFats ? (
-                                <Typography variant="h3">{trainingDayFats.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
-                          )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldTrainingFats !== null && trainingDayFats !== null ? (
+                            ) : (
                               <>
-                                {trainingDayFats - oldTrainingFats >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(trainingDayFats - oldTrainingFats).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(trainingDayFats - oldTrainingFats).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayProtein - oldTrainingDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Cabohydrates</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Fats</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {trainingDayFats ? (
+                            <Typography variant="h3">{trainingDayFats.toFixed(0)} g</Typography>
                           ) : (
-                            <>
-                              {trainingDayCarbos ? (
-                                <Typography variant="h3">{trainingDayCarbos.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
+                            <Typography variant="h3">---</Typography>
                           )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldTrainingFats !== null && trainingDayFats !== null ? (
+                          <>
+                            {trainingDayFats - oldTrainingFats >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayFats - oldTrainingFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayFats - oldTrainingFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Cabohydrates</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {trainingDayCarbos ? (
+                            <Typography variant="h3">{trainingDayCarbos.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
 
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldTrainingDayCarbos !== null && trainingDayCarbos !== null ? (
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldTrainingDayCarbos !== null && trainingDayCarbos !== null ? (
+                          <>
+                            {trainingDayCarbos - oldTrainingDayCarbos >= 0 ? (
                               <>
-                                {trainingDayCarbos - oldTrainingDayCarbos >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(trainingDayCarbos - oldTrainingDayCarbos).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(trainingDayCarbos - oldTrainingDayCarbos).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayCarbos - oldTrainingDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack spacing={1}>
-                          <Typography color="text.secondary">Fibre</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
-                          ) : (
-                            <>
-                              {trainingDayFibre ? (
-                                <Typography variant="h3">{trainingDayFibre.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
-                          )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldTrainingDayFibre !== null && trainingDayFibre !== null ? (
+                            ) : (
                               <>
-                                {trainingDayFibre - oldTrainingDayFibre >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(trainingDayFibre - oldTrainingDayFibre).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(trainingDayFibre - oldTrainingDayFibre).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayCarbos - oldTrainingDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                      </Box>
-                    </Card>
-                  </Grid>
-                </Box>
-                <Box>
-                  <Typography variant="body2">- RestDay Macros</Typography>
-                  <Grid size={12} mt={1}>
-                    <Card>
-                      <Box
-                        sx={{
-                          display: 'grid',
-                          gap: 2,
-                          gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-                          p: 3,
-                        }}
-                      >
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Protein</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack spacing={1}>
+                      <Typography color="text.secondary">Fibre</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {trainingDayFibre ? (
+                            <Typography variant="h3">{trainingDayFibre.toFixed(0)} g</Typography>
                           ) : (
-                            <>
-                              {restDayProtein ? (
-                                <Typography variant="h3">{restDayProtein.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
+                            <Typography variant="h3">---</Typography>
                           )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldRestDayProtein !== null && restDayProtein !== null ? (
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldTrainingDayFibre !== null && trainingDayFibre !== null ? (
+                          <>
+                            {trainingDayFibre - oldTrainingDayFibre >= 0 ? (
                               <>
-                                {restDayProtein - oldRestDayProtein >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(restDayProtein - oldRestDayProtein).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(restDayProtein - oldRestDayProtein).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayFibre - oldTrainingDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Fats</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
-                          ) : (
-                            <>
-                              {restDayFats ? (
-                                <Typography variant="h3">{restDayFats.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
-                          )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldRestDayFats !== null && restDayFats !== null ? (
+                            ) : (
                               <>
-                                {restDayFats - oldRestDayFats >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(restDayFats - oldRestDayFats).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(restDayFats - oldRestDayFats).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(trainingDayFibre - oldTrainingDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Cabohydrates</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Card>
+              </Grid>
+              <Grid size={isMobile ? 12 : 6} mt={1}>
+                <Typography variant="body2" mb={1}>
+                  - RestDay Macros
+                </Typography>
+                <Card>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                      p: 3,
+                    }}
+                  >
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Protein</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {restDayProtein ? (
+                            <Typography variant="h3">{restDayProtein.toFixed(0)} g</Typography>
                           ) : (
-                            <>
-                              {restDayCarbos ? (
-                                <Typography variant="h3">{restDayCarbos.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
+                            <Typography variant="h3">---</Typography>
                           )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldRestDayProtein !== null && restDayProtein !== null ? (
+                          <>
+                            {restDayProtein - oldRestDayProtein >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayProtein - oldRestDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayProtein - oldRestDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Fats</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {restDayFats ? (
+                            <Typography variant="h3">{restDayFats.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldRestDayFats !== null && restDayFats !== null ? (
+                          <>
+                            {restDayFats - oldRestDayFats >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayFats - oldRestDayFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayFats - oldRestDayFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Cabohydrates</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {restDayCarbos ? (
+                            <Typography variant="h3">{restDayCarbos.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
 
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldRestDayCarbos !== null && restDayCarbos !== null ? (
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldRestDayCarbos !== null && restDayCarbos !== null ? (
+                          <>
+                            {restDayCarbos - oldRestDayCarbos >= 0 ? (
                               <>
-                                {restDayCarbos - oldRestDayCarbos >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(restDayCarbos - oldRestDayCarbos).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(restDayCarbos - oldRestDayCarbos).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayCarbos - oldRestDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack spacing={1}>
-                          <Typography color="text.secondary">Fibre</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
-                          ) : (
-                            <>
-                              {restDayFibre ? (
-                                <Typography variant="h3">{restDayFibre.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
-                          )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldRestDayFibre !== null && restDayFibre !== null ? (
+                            ) : (
                               <>
-                                {restDayFibre - oldRestDayFibre >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(restDayFibre - oldRestDayFibre).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(restDayFibre - oldRestDayFibre).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayCarbos - oldRestDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                      </Box>
-                    </Card>
-                  </Grid>
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: 'grid',
-                  gap: 3,
-                  gridTemplateColumns: {
-                    xs: '1fr',
-                    sm: '1fr',
-                    xl: '1fr 1fr',
-                  },
-                }}
-              >
-                <Box>
-                  <Typography variant="body2">- Weekday Macros</Typography>
-                  <Grid size={12} mt={1}>
-                    <Card>
-                      <Box
-                        sx={{
-                          display: 'grid',
-                          gap: 2,
-                          gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-                          p: 3,
-                        }}
-                      >
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Protein</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack spacing={1}>
+                      <Typography color="text.secondary">Fibre</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {restDayFibre ? (
+                            <Typography variant="h3">{restDayFibre.toFixed(0)} g</Typography>
                           ) : (
-                            <>
-                              {weekDayProtein ? (
-                                <Typography variant="h3">{weekDayProtein.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
+                            <Typography variant="h3">---</Typography>
                           )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldWeekDayProtein !== null && weekDayProtein !== null ? (
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldRestDayFibre !== null && restDayFibre !== null ? (
+                          <>
+                            {restDayFibre - oldRestDayFibre >= 0 ? (
                               <>
-                                {weekDayProtein - oldWeekDayProtein >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekDayProtein - oldWeekDayProtein).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekDayProtein - oldWeekDayProtein).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayFibre - oldRestDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Fats</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
-                          ) : (
-                            <>
-                              {weekDayFats ? (
-                                <Typography variant="h3">{weekDayFats.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
-                          )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldWeekDayFats !== null && weekDayFats !== null ? (
+                            ) : (
                               <>
-                                {weekDayFats - oldWeekDayFats >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekDayFats - oldWeekDayFats).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekDayFats - oldWeekDayFats).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(restDayFibre - oldRestDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Cabohydrates</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Card>
+              </Grid>
+              <Grid size={isMobile ? 12 : 6} mt={1}>
+                <Typography variant="body2" mb={1}>
+                  - Weekday Macros
+                </Typography>
+                <Card>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                      p: 3,
+                    }}
+                  >
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Protein</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekDayProtein ? (
+                            <Typography variant="h3">{weekDayProtein.toFixed(0)} g</Typography>
                           ) : (
-                            <>
-                              {weekDayCarbos ? (
-                                <Typography variant="h3">{weekDayCarbos.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
+                            <Typography variant="h3">---</Typography>
                           )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekDayProtein !== null && weekDayProtein !== null ? (
+                          <>
+                            {weekDayProtein - oldWeekDayProtein >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayProtein - oldWeekDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayProtein - oldWeekDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Fats</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekDayFats ? (
+                            <Typography variant="h3">{weekDayFats.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekDayFats !== null && weekDayFats !== null ? (
+                          <>
+                            {weekDayFats - oldWeekDayFats >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayFats - oldWeekDayFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayFats - oldWeekDayFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Cabohydrates</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekDayCarbos ? (
+                            <Typography variant="h3">{weekDayCarbos.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
 
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldWeekDayCarbos !== null && weekDayCarbos !== null ? (
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekDayCarbos !== null && weekDayCarbos !== null ? (
+                          <>
+                            {weekDayCarbos - oldWeekDayCarbos >= 0 ? (
                               <>
-                                {weekDayCarbos - oldWeekDayCarbos >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekDayCarbos - oldWeekDayCarbos).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekDayCarbos - oldWeekDayCarbos).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayCarbos - oldWeekDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack spacing={1}>
-                          <Typography color="text.secondary">Fibre</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
-                          ) : (
-                            <>
-                              {weekDayFibre ? (
-                                <Typography variant="h3">{weekDayFibre.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
-                          )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldWeekDayFibre !== null && weekDayFibre !== null ? (
+                            ) : (
                               <>
-                                {weekDayFibre - oldWeekDayFibre >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekDayFibre - oldWeekDayFibre).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekDayFibre - oldWeekDayFibre).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayCarbos - oldWeekDayCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                      </Box>
-                    </Card>
-                  </Grid>
-                </Box>
-                <Box>
-                  <Typography variant="body2">- Weekend Macros</Typography>
-                  <Grid size={12} mt={1}>
-                    <Card>
-                      <Box
-                        sx={{
-                          display: 'grid',
-                          gap: 2,
-                          gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-                          p: 3,
-                        }}
-                      >
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Protein</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack spacing={1}>
+                      <Typography color="text.secondary">Fibre</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekDayFibre ? (
+                            <Typography variant="h3">{weekDayFibre.toFixed(0)} g</Typography>
                           ) : (
-                            <>
-                              {weekendProtein ? (
-                                <Typography variant="h3">{weekendProtein.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
+                            <Typography variant="h3">---</Typography>
                           )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldWeekDayProtein !== null && weekendProtein !== null ? (
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekDayFibre !== null && weekDayFibre !== null ? (
+                          <>
+                            {weekDayFibre - oldWeekDayFibre >= 0 ? (
                               <>
-                                {weekendProtein - oldWeekDayProtein >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekendProtein - oldWeekDayProtein).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekendProtein - oldWeekDayProtein).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayFibre - oldWeekDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Fats</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
-                          ) : (
-                            <>
-                              {weekendFats ? (
-                                <Typography variant="h3">{weekendFats.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
-                          )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldWeekendFats !== null && weekendFats !== null ? (
+                            ) : (
                               <>
-                                {weekendFats - oldWeekendFats >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekendFats - oldWeekendFats).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekendFats - oldWeekendFats).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekDayFibre - oldWeekDayFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack
-                          spacing={1}
-                          sx={{
-                            borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
-                            borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
-                            pb: { xs: 2, md: 0 },
-                          }}
-                        >
-                          <Typography color="text.secondary">Cabohydrates</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Card>
+              </Grid>
+              <Grid size={isMobile ? 12 : 6} mt={1}>
+                <Typography variant="body2" mb={1}>
+                  - Weekend Macros
+                </Typography>
+                <Card>
+                  <Box
+                    sx={{
+                      display: 'grid',
+                      gap: 2,
+                      gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+                      p: 3,
+                    }}
+                  >
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Protein</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekendProtein ? (
+                            <Typography variant="h3">{weekendProtein.toFixed(0)} g</Typography>
                           ) : (
-                            <>
-                              {weekendCarbos ? (
-                                <Typography variant="h3">{weekendCarbos.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
+                            <Typography variant="h3">---</Typography>
                           )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekDayProtein !== null && weekendProtein !== null ? (
+                          <>
+                            {weekendProtein - oldWeekDayProtein >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendProtein - oldWeekDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendProtein - oldWeekDayProtein).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', lg: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Fats</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekendFats ? (
+                            <Typography variant="h3">{weekendFats.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekendFats !== null && weekendFats !== null ? (
+                          <>
+                            {weekendFats - oldWeekendFats >= 0 ? (
+                              <>
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendFats - oldWeekendFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendFats - oldWeekendFats).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        borderRight: { xs: 'none', md: '1px solid var(--mui-palette-divider)' },
+                        borderBottom: { xs: '1px solid var(--mui-palette-divider)', md: 'none' },
+                        pb: { xs: 2, md: 0 },
+                      }}
+                    >
+                      <Typography color="text.secondary">Cabohydrates</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekendCarbos ? (
+                            <Typography variant="h3">{weekendCarbos.toFixed(0)} g</Typography>
+                          ) : (
+                            <Typography variant="h3">---</Typography>
+                          )}
+                        </>
+                      )}
 
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldWeekendCarbos !== null && weekendCarbos !== null ? (
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekendCarbos !== null && weekendCarbos !== null ? (
+                          <>
+                            {weekendCarbos - oldWeekendCarbos >= 0 ? (
                               <>
-                                {weekendCarbos - oldWeekendCarbos >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekendCarbos - oldWeekendCarbos).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekendCarbos - oldWeekendCarbos).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendCarbos - oldWeekendCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                        <Stack spacing={1}>
-                          <Typography color="text.secondary">Fibre</Typography>
-                          {isCalculating ? (
-                            <Box>
-                              <CircularProgress size={40} />
-                            </Box>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendCarbos - oldWeekendCarbos).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                    <Stack spacing={1}>
+                      <Typography color="text.secondary">Fibre</Typography>
+                      {isCalculating ? (
+                        <Box>
+                          <CircularProgress size={40} />
+                        </Box>
+                      ) : (
+                        <>
+                          {weekendFibre ? (
+                            <Typography variant="h3">{weekendFibre.toFixed(0)} g</Typography>
                           ) : (
-                            <>
-                              {weekendFibre ? (
-                                <Typography variant="h3">{weekendFibre.toFixed(0)} g</Typography>
-                              ) : (
-                                <Typography variant="h3">---</Typography>
-                              )}
-                            </>
+                            <Typography variant="h3">---</Typography>
                           )}
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            {oldWeekendFibre !== null && weekendFibre !== null ? (
+                        </>
+                      )}
+                      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                        {oldWeekendFibre !== null && weekendFibre !== null ? (
+                          <>
+                            {weekendFibre - oldWeekendFibre >= 0 ? (
                               <>
-                                {weekendFibre - oldWeekendFibre >= 0 ? (
-                                  <>
-                                    {' '}
-                                    <TrendUpIcon
-                                      color="var(--mui-palette-success-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="success.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekendFibre - oldWeekendFibre).toFixed(0)} g
-                                      </Typography>{' '}
-                                      increase
-                                    </Typography>
-                                  </>
-                                ) : (
-                                  <>
-                                    <TrendDownIcon
-                                      color="var(--mui-palette-error-main)"
-                                      fontSize="var(--icon-fontSize-md)"
-                                    />
-                                    <Typography color="text.secondary" variant="body2">
-                                      <Typography color="error.main" component="span" variant="subtitle2">
-                                        {Math.abs(weekendFibre - oldWeekendFibre).toFixed(0)} g
-                                      </Typography>{' '}
-                                      decrease
-                                    </Typography>
-                                  </>
-                                )}
+                                {' '}
+                                <TrendUpIcon
+                                  color="var(--mui-palette-success-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="success.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendFibre - oldWeekendFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  increase
+                                </Typography>
                               </>
-                            ) : null}
-                          </Stack>
-                        </Stack>
-                      </Box>
-                    </Card>
-                  </Grid>
-                </Box>
-              </Box>
+                            ) : (
+                              <>
+                                <TrendDownIcon
+                                  color="var(--mui-palette-error-main)"
+                                  fontSize="var(--icon-fontSize-md)"
+                                />
+                                <Typography color="text.secondary" variant="body2">
+                                  <Typography color="error.main" component="span" variant="subtitle2">
+                                    {Math.abs(weekendFibre - oldWeekendFibre).toFixed(0)} g
+                                  </Typography>{' '}
+                                  decrease
+                                </Typography>
+                              </>
+                            )}
+                          </>
+                        ) : null}
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Card>
+              </Grid>
             </Box>
           ) : null}
         </Grid>

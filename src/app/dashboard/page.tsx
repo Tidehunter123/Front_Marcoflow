@@ -403,6 +403,7 @@ export default function Page(): React.JSX.Element {
 
         setDateOfBirth(dayjs(profileData.date_of_birth));
         setIsDateOfBirthValid(true);
+        setAge(profileData.age);
         setGender(profileData.gender);
         setHeight(profileData.height);
         setWeight(profileData.weight);

@@ -51,16 +51,16 @@ const cyclingColumns = [
   'BMR (kcal)',
   'Total Maintenance Calories (kcal)',
   'Target Calories (kcal)',
-  'TrainingDay Calories (kcal)',
-  'TrainingDay Protein (g)',
-  'TrainingDay Fats (g)',
-  'TrainigDay Carbohydrates (g)',
-  'TrainigDay Fibre (g)',
-  'RestDay Calories (kcal)',
-  'RestDay Protein (g)',
-  'RestDay Fats (g)',
-  'RestDay Carbohydrates (g)',
-  'RestDay Fibre (g)',
+  'Training Day Calories (kcal)',
+  'Training Day Protein (g)',
+  'Training Day Fats (g)',
+  'Trainig Day Carbohydrates (g)',
+  'Trainig Day Fibre (g)',
+  'Rest Day Calories (kcal)',
+  'Rest Day Protein (g)',
+  'Rest Day Fats (g)',
+  'Rest Day Carbohydrates (g)',
+  'Rest Day Fibre (g)',
 ];
 
 const bankingColumns = [
@@ -68,6 +68,33 @@ const bankingColumns = [
   'BMR (kcal)',
   'Total Maintenance Calories (kcal)',
   'Target Calories (kcal)',
+  'weekday Calories (kcal)',
+  'weekday Protein (g)',
+  'weekday Fats (g)',
+  'weekday Carbohydrates (g)',
+  'weekday Fibre (g)',
+  'weekend Calories (kcal)',
+  'weekend Protein (g)',
+  'weekend Fats (g)',
+  'weekend Carbohydrates (g)',
+  'weekend Fibre (g)',
+];
+
+const bothColumns = [
+  'Weight (kg)',
+  'BMR (kcal)',
+  'Total Maintenance Calories (kcal)',
+  'Target Calories (kcal)',
+  'Training Day Calories (kcal)',
+  'Training Day Protein (g)',
+  'Training Day Fats (g)',
+  'Trainig Day Carbohydrates (g)',
+  'Trainig Day Fibre (g)',
+  'Rest Day Calories (kcal)',
+  'Rest Day Protein (g)',
+  'Rest Day Fats (g)',
+  'Rest Day Carbohydrates (g)',
+  'Rest Day Fibre (g)',
   'weekday Calories (kcal)',
   'weekday Protein (g)',
   'weekday Fats (g)',
@@ -236,6 +263,16 @@ export default function Page(): React.JSX.Element {
                             </TableCell>
                           ))
                         : null}
+                      {calorieCycling && calorieBanking
+                        ? bothColumns.map((col) => (
+                            <TableCell
+                              key={col}
+                              sx={{ fontSize: '0.9rem', color: 'rgba(0,0,0,0.8)', textAlign: 'center' }}
+                            >
+                              {col}
+                            </TableCell>
+                          ))
+                        : null}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -339,6 +376,87 @@ export default function Page(): React.JSX.Element {
                             <TableCell sx={{ textAlign: 'center' }}>
                               {Math.round(row.Target_Calories.toFixed(0))}
                             </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.WeekdayCalories.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Weekday_Protein.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Weekday_Fats.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Weekday_Carbohydrates.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Weekday_Fibre.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.WeekendCalories.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Weekend_Protein.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Weekend_Fats.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Weekend_Carbohydrates.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Weekend_Fibre.toFixed(0))}
+                            </TableCell>
+                          </StyledTableRow>
+                        ))
+                      : null}
+                    {calorieCycling && calorieBanking
+                      ? progressionData.map((row) => (
+                          <StyledTableRow key={row.Week}>
+                            <TableCell
+                              sx={{
+                                textAlign: 'center',
+                                position: 'sticky',
+                                left: 0,
+                                backgroundColor: 'white',
+                                zIndex: 1, // Keep it above body cells but below header
+                              }}
+                            >
+                              {row.Week}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>{Number(row.Weight).toFixed(1)}</TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>{Math.round(row.BMR.toFixed(0))}</TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Total_Maintenance_Calories.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Target_Calories.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.TrainingDayCalories.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Training_Protein.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Training_Fats.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Training_Carbohydrates.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Training_Fibre.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.RestDayCalories.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Rest_Protein.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>{Math.round(row.Rest_Fats.toFixed(0))}</TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>
+                              {Math.round(row.Rest_Carbohydrates.toFixed(0))}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: 'center' }}>{Math.round(row.Rest_Fibre.toFixed(0))}</TableCell>
                             <TableCell sx={{ textAlign: 'center' }}>
                               {Math.round(row.WeekdayCalories.toFixed(0))}
                             </TableCell>

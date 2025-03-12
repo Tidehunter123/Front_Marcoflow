@@ -1709,7 +1709,7 @@ export default function Page(): React.JSX.Element {
           ) : trainingDayCalories && !weekdayCalories ? (
             <>
               <Typography fontWeight="bold" variant="h5" color="#000000" mt={5}>
-                - TrainingDay Macros
+                - Training Day Macros
               </Typography>
               <Grid container spacing={3} justifyContent="center" py="30px">
                 <Grid
@@ -1850,7 +1850,7 @@ export default function Page(): React.JSX.Element {
                 </Grid>
               </Grid>
               <Typography fontWeight="bold" variant="h5" color="#000000">
-                - RestDay Macros
+                - Rest Day Macros
               </Typography>
               <Grid container spacing={3} justifyContent="center" py="30px">
                 <Grid
@@ -2279,7 +2279,7 @@ export default function Page(): React.JSX.Element {
           ) : weekdayCalories && trainingDayCalories ? (
             <>
               <Typography fontWeight="bold" variant="h5" color="#000000" mt={5}>
-                - TrainingDay Macros
+                - Training Day Macros
               </Typography>
               <Grid container spacing={3} justifyContent="center" py="30px">
                 <Grid
@@ -2420,7 +2420,7 @@ export default function Page(): React.JSX.Element {
                 </Grid>
               </Grid>
               <Typography fontWeight="bold" variant="h5" color="#000000">
-                - RestDay Macros
+                - Rest Day Macros
               </Typography>
               <Grid container spacing={3} justifyContent="center" py="30px">
                 <Grid

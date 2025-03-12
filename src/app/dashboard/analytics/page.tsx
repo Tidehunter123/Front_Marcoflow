@@ -946,7 +946,7 @@ export default function Page(): React.JSX.Element {
             <>
               <Grid size={isMobile ? 12 : 6} mt={1}>
                 <Typography variant="body2" mb={1}>
-                  - TrainingDay Macros
+                  - Training Day Macros
                 </Typography>
                 <Card>
                   <Box
@@ -1184,7 +1184,7 @@ export default function Page(): React.JSX.Element {
               </Grid>
               <Grid size={isMobile ? 12 : 6} mt={1}>
                 <Typography variant="body2" mb={1}>
-                  - RestDay Macros
+                  - Rest Day Macros
                 </Typography>
                 <Card>
                   <Box
@@ -1904,7 +1904,7 @@ export default function Page(): React.JSX.Element {
             <>
               <Grid size={isMobile ? 12 : 6} mt={1}>
                 <Typography variant="body2" mb={1}>
-                  - TrainingDay Macros
+                  - Training Day Macros
                 </Typography>
                 <Card>
                   <Box
@@ -2142,7 +2142,7 @@ export default function Page(): React.JSX.Element {
               </Grid>
               <Grid size={isMobile ? 12 : 6} mt={1}>
                 <Typography variant="body2" mb={1}>
-                  - RestDay Macros
+                  - Rest Day Macros
                 </Typography>
                 <Card>
                   <Box

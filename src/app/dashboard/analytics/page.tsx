@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { keyframes } from '@emotion/react';
-import { Button, CircularProgress, Modal, TextField, useMediaQuery, useTheme } from '@mui/material';
+import { Button, CircularProgress, Modal, Tab, Tabs, TextField, useMediaQuery, useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid2';
@@ -10,6 +10,8 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { TrendDown as TrendDownIcon } from '@phosphor-icons/react/dist/ssr/TrendDown';
 import { TrendUp as TrendUpIcon } from '@phosphor-icons/react/dist/ssr/TrendUp';
+import dayjs from 'dayjs';
+import { Line, LineChart, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts';
 
 import { UserContext } from '@/contexts/auth/user-context';
 import { DigitalWallet } from '@/components/dashboard/crypto/digital-wallet';
@@ -24,6 +26,22 @@ const fadeIn = keyframes`
     transform: translate(-50%, -50%);
   }
 `;
+
+const periods = ['1W', '1M', '2M', '1Y'];
+
+const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+  if (active && payload?.length) {
+    return (
+      <div style={{ background: '#fff', padding: '8px', border: '1px solid #ccc', borderRadius: '5px' }}>
+        <p style={{ margin: 0 }}>{payload[0].payload.date}</p>
+        <p style={{ margin: 0, color: '#6b5b95' }}>weight: {payload[0].value} kg</p>
+      </div>
+    );
+  }
+  return null;
+};
+
+// Custom Tooltip Component
 
 export default function Page(): React.JSX.Element {
   const theme = useTheme();
@@ -98,6 +116,7 @@ export default function Page(): React.JSX.Element {
   const [weekendCarbos, setWeekendCarbos] = React.useState<number | null>(null);
   const [weekendFibre, setWeekendFibre] = React.useState<number | null>(null);
   const [weightTrack, setWeightTrack] = React.useState<number | null>(null);
+  const [weightData, setWeightData] = React.useState<{ date: string; weight: number }[]>([]);
   const [bmrTrack, setBmrTrack] = React.useState<number[]>([70, 70]);
   const [totalTrack, setTotalTrack] = React.useState<number[]>([70, 70]);
   const [targetTrack, setTargetTrack] = React.useState<number[]>([70, 70]);
@@ -106,11 +125,62 @@ export default function Page(): React.JSX.Element {
   const [weekdayTrack, setWeekdayTrack] = React.useState<number[]>([70, 70]);
   const [weekendTrack, setWeekendTrack] = React.useState<number[]>([70, 70]);
 
+  const [tab, setTab] = React.useState<number>(1); // Default to "1M"
+  const [selectedPeriod, setSelectedPeriod] = React.useState<string>('1 Month');
+  const [filteredData, setFilteredData] = React.useState<{ date: string; weight: number }[]>([]);
+
+  const filterAndFormatData = (data: { date: string; weight: number }[], period: string) => {
+    const today = dayjs(); // Get current time
+
+    return data
+      .filter((entry) => {
+        const entryDate = dayjs(entry.date, 'DD-MM-YYYY HH:mm'); // Ensure date format from backend
+        switch (period) {
+          case '1W':
+            return entryDate.isAfter(today.subtract(1, 'week'));
+          case '1M':
+            return entryDate.isAfter(today.subtract(1, 'month'));
+          case '2M':
+            return entryDate.isAfter(today.subtract(2, 'month'));
+          case '1Y':
+            return entryDate.isAfter(today.subtract(1, 'year'));
+          default:
+            return true;
+        }
+      })
+      .map((entry) => {
+        const formattedDate =
+          period === '1W'
+            ? dayjs(entry.date, 'DD-MM-YYYY HH:mm').format('DD-MM-YYYY HH:mm') // Show time for 1W
+            : dayjs(entry.date, 'DD-MM-YYYY HH:mm').format('DD-MM-YYYY'); // Only date for others
+
+        return {
+          ...entry,
+          date: formattedDate,
+        };
+      });
+  };
+
+  // Handle tab changes
+  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+    setTab(newValue);
+    const periodText =
+      periods[newValue] === '1W'
+        ? '1 Week'
+        : periods[newValue] === '1M'
+          ? '1 Month'
+          : periods[newValue] === '2M'
+            ? '2 Months'
+            : '1 Year';
+    setSelectedPeriod(periodText);
+    setFilteredData(filterAndFormatData(weightData, periods[newValue])); // Apply filtering
+  };
+
   if (!userContext) {
     throw new Error('UserContext is not available. Make sure the component is wrapped in a UserProvider.');
   }
 
-  const { user, isLoading, error } = userContext;
+  const { user } = userContext;
 
   const handleRecalculate = async () => {
     // Add logic to recalculate BMR, Total Calories, and Target Calories based on the new weight
@@ -282,7 +352,11 @@ export default function Page(): React.JSX.Element {
         setFibre(summaryData.Fibre);
         setLastUpdated(result.CalculationData.updated_at);
 
-        if (result.CalculationData.weight_track) setWeightTrack(result.CalculationData.weight_track);
+        if (result.CalculationData.weight_track) {
+          setWeightTrack(result.CalculationData.weight_track);
+          setWeightData(result.CalculationData.weight_track);
+          setFilteredData(filterAndFormatData(result.CalculationData.weight_track, '1M'));
+        }
         if (result.CalculationData.BMR_track) setBmrTrack(result.CalculationData.BMR_track);
         if (result.CalculationData.Total_track) setTotalTrack(result.CalculationData.Total_track);
         if (result.CalculationData.Target_track) setTargetTrack(result.CalculationData.Target_track);
@@ -565,6 +639,39 @@ export default function Page(): React.JSX.Element {
             </Stack>
           </>
         )}
+
+        {/* Weight Progress Section */}
+        <Card sx={{ mb: 2, p: 1 }}>
+          {/* Tabs for selecting time range */}
+          <Tabs
+            value={tab}
+            onChange={handleTabChange}
+            variant="fullWidth"
+            sx={{ '& .MuiTabs-indicator': { backgroundColor: '#D51331' } }}
+          >
+            <Tab label="1W" />
+            <Tab label="1M" />
+            <Tab label="2M" />
+            <Tab label="1Y" />
+          </Tabs>
+
+          <Typography variant="body1" color="#000000" textAlign="center" mt={2}>
+            Weight Data for the last {selectedPeriod}
+          </Typography>
+
+          {/* Graph Display */}
+          <Box sx={{ height: 150, mt: 2 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={filteredData}>
+                <XAxis dataKey="date" stroke="#8884d8" />
+                <YAxis domain={[30, 200]} />
+                <Tooltip content={<CustomTooltip />} />
+                <Line type="monotone" dataKey="weight" stroke="#8884d8" strokeWidth={2} />
+              </LineChart>
+            </ResponsiveContainer>
+          </Box>
+        </Card>
+
         <Grid container spacing={4}>
           <Grid size={12}>
             <Box

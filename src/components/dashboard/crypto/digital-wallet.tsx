@@ -14,7 +14,7 @@ import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-export type Type = 'BMR' | 'Total' | 'Target' | 'Training Day' | 'Rest Day' | 'Weekday' | 'Weekend';
+export type Type = 'BMR' | 'Total' | 'Target' | 'TrainingDay' | 'RestDay' | 'Weekday' | 'Weekend';
 
 const fitnessIcons: Record<Type, string> = {
   BMR: '/assets/fibre.png', // Example: An icon representing basal metabolic rate
@@ -75,7 +75,7 @@ export function DigitalWallet({
           <DotsThreeIcon weight="bold" />
         </IconButton>
       </Stack>
-      <Box sx={{ pt: 3 }}>
+      {/* <Box sx={{ pt: 3 }}>
         <NoSsr fallback={<Box sx={{ height: `${chartHeight}px` }} />}>
           <ResponsiveContainer height={chartHeight} width="100%">
             <AreaChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
@@ -100,8 +100,8 @@ export function DigitalWallet({
             </AreaChart>
           </ResponsiveContainer>
         </NoSsr>
-      </Box>
-      <Box sx={{ pb: 2, px: 2 }}>
+      </Box> */}
+      <Box sx={{ pb: 2, px: 2, pt: 3 }}>
         <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
           <Box component="img" src={fitnessIcons[type]} sx={{ height: 'auto', flex: '0 0 auto', width: '40px' }} />
           <div>

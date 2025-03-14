@@ -641,7 +641,7 @@ export default function Page(): React.JSX.Element {
                   <DigitalWallet
                     amount={trainingDayCalories ? trainingDayCalories.toFixed(0) : '---'}
                     color="#D51331"
-                    type="Training Day"
+                    type="TrainingDay"
                     data={trainTrack && trainTrack?.length < 2 ? [70, 70] : trainTrack}
                     diff={
                       trainingDayCalories !== null && oldTrainingDayCalories !== null
@@ -662,7 +662,7 @@ export default function Page(): React.JSX.Element {
                   <DigitalWallet
                     amount={restDayCalories ? restDayCalories.toFixed(0) : '---'}
                     color="#D51331"
-                    type="Rest Day"
+                    type="RestDay"
                     data={restTrack && restTrack?.length < 2 ? [70, 70] : restTrack}
                     diff={
                       restDayCalories !== null && oldRestDayCalories !== null

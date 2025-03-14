@@ -97,6 +97,15 @@ export default function Page(): React.JSX.Element {
   const [weekendFats, setWeekendFats] = React.useState<number | null>(null);
   const [weekendCarbos, setWeekendCarbos] = React.useState<number | null>(null);
   const [weekendFibre, setWeekendFibre] = React.useState<number | null>(null);
+  const [weightTrack, setWeightTrack] = React.useState<number | null>(null);
+  const [bmrTrack, setBmrTrack] = React.useState<number[]>([70, 70]);
+  const [totalTrack, setTotalTrack] = React.useState<number[]>([70, 70]);
+  const [targetTrack, setTargetTrack] = React.useState<number[]>([70, 70]);
+  const [trainTrack, setTrainTrack] = React.useState<number[]>([70, 70]);
+  const [restTrack, setRestTrack] = React.useState<number[]>([70, 70]);
+  const [weekdayTrack, setWeekdayTrack] = React.useState<number[]>([70, 70]);
+  const [weekendTrack, setWeekendTrack] = React.useState<number[]>([70, 70]);
+
   if (!userContext) {
     throw new Error('UserContext is not available. Make sure the component is wrapped in a UserProvider.');
   }
@@ -272,6 +281,15 @@ export default function Page(): React.JSX.Element {
         setCarbos(summaryData.Carbohydrates);
         setFibre(summaryData.Fibre);
         setLastUpdated(result.CalculationData.updated_at);
+
+        setWeightTrack(result.CalculationData.weight_track);
+        setBmrTrack(result.CalculationData.BMR_track);
+        setTotalTrack(result.CalculationData.Total_track);
+        setTargetTrack(result.CalculationData.Target_track);
+        setTrainTrack(result.CalculationData.Train_track);
+        setRestTrack(result.CalculationData.Rest_track);
+        setWeekdayTrack(result.CalculationData.Weekday_track);
+        setWeekendTrack(result.CalculationData.Weekend_track);
 
         const bmr = localStorage.getItem('Bmr');
         const totalCalorie = localStorage.getItem('TotalCalorie');
@@ -570,10 +588,7 @@ export default function Page(): React.JSX.Element {
                 amount={Bmr ? Bmr.toFixed(0) : '---'}
                 color="#D51331"
                 type="BMR"
-                data={[
-                  56, 61, 64, 60, 63, 61, 60, 68, 66, 64, 77, 60, 65, 51, 72, 80, 74, 67, 77, 83, 94, 95, 89, 100, 94,
-                  104, 101, 105, 104, 103, 107, 120,
-                ]}
+                data={bmrTrack && bmrTrack?.length < 2 ? [70, 70] : bmrTrack}
                 diff={Bmr !== null && oldBmr !== null ? parseFloat(Math.abs(Bmr - oldBmr).toFixed(0)) : null}
                 isDiff={oldBmr !== null}
                 trend={Bmr !== null && oldBmr !== null && parseFloat((Bmr - oldBmr).toFixed(0)) >= 0 ? 'up' : 'down'}
@@ -584,10 +599,7 @@ export default function Page(): React.JSX.Element {
                 amount={TotalCalorie ? TotalCalorie.toFixed(0) : '---'}
                 color="#D51331"
                 type="Total"
-                data={[
-                  65, 64, 70, 76, 82, 80, 85, 78, 82, 95, 93, 80, 112, 102, 105, 95, 98, 102, 104, 99, 101, 100, 109,
-                  106, 111, 105, 108, 102, 118, 129,
-                ]}
+                data={totalTrack && totalTrack?.length < 2 ? [70, 70] : totalTrack}
                 diff={
                   TotalCalorie !== null && oldTotalCalorie !== null
                     ? parseFloat(Math.abs(TotalCalorie - oldTotalCalorie).toFixed(0))
@@ -607,10 +619,7 @@ export default function Page(): React.JSX.Element {
                 amount={TargetCalorie ? TargetCalorie.toFixed(0) : '---'}
                 color="#D51331"
                 type="Target"
-                data={[
-                  99, 101, 104, 98, 99, 99, 102, 103, 100, 101, 99, 101, 101, 98, 95, 97, 98, 92, 94, 93, 95, 82, 78,
-                  75, 80, 78, 76, 54, 45, 32, 31, 27,
-                ]}
+                data={targetTrack && targetTrack?.length < 2 ? [70, 70] : targetTrack}
                 diff={
                   TargetCalorie !== null && oldTargetCalorie !== null
                     ? parseFloat(Math.abs(TargetCalorie - oldTargetCalorie).toFixed(0))
@@ -633,10 +642,7 @@ export default function Page(): React.JSX.Element {
                     amount={trainingDayCalories ? trainingDayCalories.toFixed(0) : '---'}
                     color="#D51331"
                     type="TrainingDay"
-                    data={[
-                      65, 64, 70, 76, 82, 80, 85, 78, 82, 95, 93, 80, 112, 102, 105, 95, 98, 102, 104, 99, 101, 100,
-                      109, 106, 111, 105, 108, 102, 118, 129,
-                    ]}
+                    data={trainTrack && trainTrack?.length < 2 ? [70, 70] : trainTrack}
                     diff={
                       trainingDayCalories !== null && oldTrainingDayCalories !== null
                         ? parseFloat(Math.abs(trainingDayCalories - oldTrainingDayCalories).toFixed(0))
@@ -652,14 +658,12 @@ export default function Page(): React.JSX.Element {
                     isDiff={oldTrainingDayCalories !== null}
                     isCalculating={isCalculating}
                   />
+
                   <DigitalWallet
                     amount={restDayCalories ? restDayCalories.toFixed(0) : '---'}
                     color="#D51331"
                     type="RestDay"
-                    data={[
-                      99, 101, 104, 98, 99, 99, 102, 103, 100, 101, 99, 101, 101, 98, 95, 97, 98, 92, 94, 93, 95, 82,
-                      78, 75, 80, 78, 76, 54, 45, 32, 31, 27,
-                    ]}
+                    data={restTrack && restTrack?.length < 2 ? [70, 70] : restTrack}
                     diff={
                       restDayCalories !== null && oldRestDayCalories !== null
                         ? parseFloat(Math.abs(restDayCalories - oldRestDayCalories).toFixed(0))
@@ -684,10 +688,7 @@ export default function Page(): React.JSX.Element {
                     amount={weekdayCalories ? weekdayCalories.toFixed(0) : '---'}
                     color="#D51331"
                     type="Weekday"
-                    data={[
-                      65, 64, 70, 76, 82, 80, 85, 78, 82, 95, 93, 80, 112, 102, 105, 95, 98, 102, 104, 99, 101, 100,
-                      109, 106, 111, 105, 108, 102, 118, 129,
-                    ]}
+                    data={weekdayTrack && weekdayTrack?.length < 2 ? [70, 70] : weekdayTrack}
                     diff={
                       weekdayCalories !== null && oldWeekdayCalories !== null
                         ? parseFloat(Math.abs(weekdayCalories - oldWeekdayCalories).toFixed(0))
@@ -707,10 +708,7 @@ export default function Page(): React.JSX.Element {
                     amount={weekendCalories ? weekendCalories.toFixed(0) : '---'}
                     color="#D51331"
                     type="Weekend"
-                    data={[
-                      99, 101, 104, 98, 99, 99, 102, 103, 100, 101, 99, 101, 101, 98, 95, 97, 98, 92, 94, 93, 95, 82,
-                      78, 75, 80, 78, 76, 54, 45, 32, 31, 27,
-                    ]}
+                    data={weekendTrack && weekendTrack?.length < 2 ? [70, 70] : weekendTrack}
                     diff={
                       weekendCalories !== null && oldWeekendCalories !== null
                         ? parseFloat(Math.abs(weekendCalories - oldWeekendCalories).toFixed(0))

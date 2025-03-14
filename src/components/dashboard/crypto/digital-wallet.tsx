@@ -14,7 +14,7 @@ import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-export type Type = 'BMR' | 'Total' | 'Target' | 'TrainingDay' | 'RestDay' | 'Weekday' | 'Weekend';
+export type Type = 'BMR' | 'Total' | 'Target' | 'Training Day' | 'Rest Day' | 'Weekday' | 'Weekend';
 
 const fitnessIcons: Record<Type, string> = {
   BMR: '/assets/fibre.png', // Example: An icon representing basal metabolic rate

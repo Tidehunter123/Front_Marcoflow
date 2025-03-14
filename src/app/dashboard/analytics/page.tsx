@@ -282,14 +282,14 @@ export default function Page(): React.JSX.Element {
         setFibre(summaryData.Fibre);
         setLastUpdated(result.CalculationData.updated_at);
 
-        setWeightTrack(result.CalculationData.weight_track);
-        setBmrTrack(result.CalculationData.BMR_track);
-        setTotalTrack(result.CalculationData.Total_track);
-        setTargetTrack(result.CalculationData.Target_track);
-        setTrainTrack(result.CalculationData.Train_track);
-        setRestTrack(result.CalculationData.Rest_track);
-        setWeekdayTrack(result.CalculationData.Weekday_track);
-        setWeekendTrack(result.CalculationData.Weekend_track);
+        if (result.CalculationData.weight_track) setWeightTrack(result.CalculationData.weight_track);
+        if (result.CalculationData.BMR_track) setBmrTrack(result.CalculationData.BMR_track);
+        if (result.CalculationData.Total_track) setTotalTrack(result.CalculationData.Total_track);
+        if (result.CalculationData.Target_track) setTargetTrack(result.CalculationData.Target_track);
+        if (result.CalculationData.Train_track) setTrainTrack(result.CalculationData.Train_track);
+        if (result.CalculationData.Rest_track) setRestTrack(result.CalculationData.Rest_track);
+        if (result.CalculationData.Weekday_track) setWeekdayTrack(result.CalculationData.Weekday_track);
+        if (result.CalculationData.Weekend_track) setWeekendTrack(result.CalculationData.Weekend_track);
 
         const bmr = localStorage.getItem('Bmr');
         const totalCalorie = localStorage.getItem('TotalCalorie');
@@ -641,7 +641,7 @@ export default function Page(): React.JSX.Element {
                   <DigitalWallet
                     amount={trainingDayCalories ? trainingDayCalories.toFixed(0) : '---'}
                     color="#D51331"
-                    type="TrainingDay"
+                    type="Training Day"
                     data={trainTrack && trainTrack?.length < 2 ? [70, 70] : trainTrack}
                     diff={
                       trainingDayCalories !== null && oldTrainingDayCalories !== null
@@ -662,7 +662,7 @@ export default function Page(): React.JSX.Element {
                   <DigitalWallet
                     amount={restDayCalories ? restDayCalories.toFixed(0) : '---'}
                     color="#D51331"
-                    type="RestDay"
+                    type="Rest Day"
                     data={restTrack && restTrack?.length < 2 ? [70, 70] : restTrack}
                     diff={
                       restDayCalories !== null && oldRestDayCalories !== null

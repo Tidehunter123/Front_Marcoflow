@@ -17,6 +17,7 @@ export default function Page(): React.JSX.Element {
         m: 'var(--Content-margin)',
         p: 'var(--Content-padding)',
         width: 'var(--Content-width)',
+        mt: !isMobile ? -2 : 0,
       }}
     >
       <Stack spacing={4}>

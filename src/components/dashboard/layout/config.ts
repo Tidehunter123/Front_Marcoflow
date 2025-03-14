@@ -26,8 +26,14 @@ export const layoutConfig = {
         {
           key: 'Progress Tracking Chart',
           title: 'Tracking Chart',
-          href: paths.dashboard.eCommerce,
+          href: paths.dashboard.track,
           icon: 'tracking_chart',
+        },
+        {
+          key: 'Periodization References',
+          title: 'Periodization References',
+          href: paths.dashboard.academy.details('1'),
+          icon: 'graduation-cap',
         },
       ],
     },

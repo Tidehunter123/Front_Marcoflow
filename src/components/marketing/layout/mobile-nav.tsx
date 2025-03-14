@@ -33,7 +33,12 @@ const navItems = [
       {
         key: 'Progress Tracking Chart',
         title: 'Tracking Chart',
-        href: paths.dashboard.eCommerce,
+        href: paths.dashboard.track,
+      },
+      {
+        key: 'Periodization References',
+        title: 'Periodization References',
+        href: paths.dashboard.track,
       },
     ],
   },
